@@ -5,13 +5,13 @@ var router = express.Router();
 
 // GET /auth/signup - sends the form for signup
 router.get('/signup', function(req, res) {
-  res.render('auth/signup');
+  res.render('auth/signup', {user: req.user});
 });
 
 
 // GET /auth/login - send form to login
 router.get('/login', function(req, res) {
-  res.render('auth/login');
+  res.render('auth/login', {user: req.user});
 });
 
 // POST /auth/signup - route that processes the signup form
@@ -21,13 +21,15 @@ router.post('/signup', function(req, res) {
 		where: {email: req.body.email},
 		defaults: {
 			name: req.body.name,
-			password: req.body.password
+			password: req.body.password,
+			location: 'Earth, Milky Way',
+			imgUrl: 'vzbo0kvghbp568aswfit'
 		}
 	}).spread(function(user, created) {
 		if( created ) {
-			// No record was found, so we created one
+			// No record was found, so one was created
 			passport.authenticate('local', {
-				successRedirect: '/',
+				successRedirect: '/user/' + user.id + '/update',
 				successFlash: 'Account created and logged in!'
 			})(req, res);
 		} else {
@@ -37,7 +39,7 @@ router.post('/signup', function(req, res) {
 		}
 	}).catch(function(error) {
 		// catch any additional errors
-		console.log('###########', error.message);
+		console.log('###########ERROR: ', error.message);
 		req.flash('error', error.message);
 		res.redirect('/auth/signup');
 	});
@@ -56,7 +58,7 @@ router.post('/login', passport.authenticate('local', {
 router.get('/logout', function(req, res) {
 	// Passport logout() removes req.user and clears the session
 	req.logout();
-	req.flash('success', 'You have logged out!');
+	req.flash('success', 'Farewell dear user!');
 	res.redirect('/');
 });
 

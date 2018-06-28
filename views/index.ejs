@@ -1,6 +1,8 @@
-<h2>Home</h2>
 
-<a href="/auth/signup">Signup</a>
-<a href="/auth/login">Login</a>
-<a href="/auth/logout">Logout</a>
-<a href="/profile">Profile</a>
+<div class="container flex home-page-container">
+	<h5>Search books by title, author or isbn</h5>
+	<form id="book-search-form" method="POST" action="/api">
+		<input type="text" name="searchTerm" />
+		<input class="btn-large" type="submit" value="Search" />
+	</form>
+</div>

@@ -1,0 +1,14 @@
+<h1><%= list.name %></h1>
+
+<% list.books.forEach(function(book){ %>
+	<div class="list-books-container">
+		<h3><%= book.title %></h3>
+		<h5><%= book.author %></h5>
+
+		<a class="btn-large start-spec-group-btn" href="/groups/<%= book.id %>/new">Start a Group</a>
+
+		<a class="btn-large find-spec-group-btn" href="/groups/<%= book.id %>">Find a Group</a>
+
+		<a class="btn-large delete-book-btn" data-id="<%= list.id %>" href="/books/<%= book.id %>">Remove From List</a>
+	</div>
+<% }); %>

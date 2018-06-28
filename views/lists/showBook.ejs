@@ -1,0 +1,18 @@
+<h1><%= book.title %></h1>
+<a class="btn-large" href="/quotes/<%= book.id %>/new">Add Quote</a>
+<a class="btn-large" href="/notes/<%= book.id %>/new">Add Note</a>
+
+<div class="quotes-container">
+	<h2>Favorite Quotes</h2>
+	<% quotes.forEach(function(quote) { %>
+		<p>"<%= quote.content %>"</p>
+		<p>Page: <%= quote.page %></p>
+	<% }); %>
+</div>
+
+<div class="notes-container">
+	<h2>Thoughts</h2>
+	<% notes.forEach(function(note) { %>
+		<p><%= note.content %></p>
+	<% }); %>
+</div>

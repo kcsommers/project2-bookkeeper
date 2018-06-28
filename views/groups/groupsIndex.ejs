@@ -1,0 +1,10 @@
+<% if (groups.length) { %>
+	<% groups.forEach(function(group){ %>
+		<a href="groups/<%= group.id %>">
+			<h1><%= group.name %></h1>
+			<h3><%= group.topic %></h3>
+		</a>
+	<% }); %>
+<% } else { %>
+	<h3>Your search did not return any results</h3>
+<% } %>

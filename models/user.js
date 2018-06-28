@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
     	validate: {
     		len: {
     			args: [1, 99],
-    			msg: 'Invalid name. Must be between 1 and 99 characters.'
+    			msg: 'Name must be between 1 and 99 characters.'
     		}
     	}
     },
@@ -27,6 +27,12 @@ module.exports = (sequelize, DataTypes) => {
     			msg: 'Password must be at least 8 characters.'
     		}
     	}
+    }, 
+    imgUrl: {
+      type: DataTypes.STRING
+    },
+    location: {
+      type: DataTypes.STRING
     }
   }, {
   	hooks: {
@@ -41,6 +47,11 @@ module.exports = (sequelize, DataTypes) => {
 
   user.associate = function(models) {
     // associations can be defined here
+    models.user.hasMany(models.list);
+    models.user.hasMany(models.quote);
+    models.user.hasMany(models.note);
+    models.user.hasMany(models.post);
+    models.user.belongsToMany(models.group, {through: 'groupsUsers'});
   };
 
   // This checks the entered password against the database hashed password

@@ -1,0 +1,41 @@
+<% if (msg) { %>
+	<p><%= msg %></p>
+<% } %>
+
+<h2><%= group.name %></h2>
+<h4><%= group.topic %></h4>
+<p><%= group.description %></p>
+
+
+<% users.forEach(function(user) { %>
+	<h4><%= user.name %></h4>
+<% }); %>
+
+<% if (currUser) { -%>
+	<form id="join-group-form" method="POST" action="/groups/join">
+		<input hidden type="text" name="group" value="<%= group.id %>">
+		<input hidden type="text" name="user" value="<%= currUser.id %>">
+		<input class="btn-large" type="submit" value="Join Group">
+	</form>
+<% } else { %>
+	<h4>Login or create an account to join this group!</h4>
+<% } %>
+
+<div class="posts-container">
+	<h3>Posts</h3>
+	<% posts.forEach(function(post){ %>
+		<div class="post-container">
+			<h6><%= post.user.name %></h6>
+			<p><%= post.content %></p>
+		</div>
+		<hr />
+	<% }); %>
+
+	<h6>Post to Group</h6>
+	<form id="new-post-form" method="POST" action="/posts">
+		<input hidden type="text" name="user" value="<%= currUser.id %>" />
+		<input hidden type="text" name="group" value="<%= group.id %>" />
+		<textarea name="content"></textarea>
+		<input class="btn-large" type="submit" value="submit" />
+	</form>
+</div>

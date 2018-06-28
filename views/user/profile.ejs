@@ -1,0 +1,54 @@
+<% var imgUrl = cloudinary.url(user.imgUrl) %>
+
+<main class="profile-main">
+	<section class="profile-info">
+		<div class="user-info">
+			<div class="profile-image-container">
+				<img src="<%= imgUrl %>" width="100%" />
+			</div>
+			<h4><%= user.name %></h4>
+			<p><%= user.location %></p>
+		</div>
+
+		<div class="profile-menu">
+			<h5>Search books</h5>
+			<form id="search-form" method="POST" action="/api">
+				<input type="text" name="searchTerm" />
+				<input class="btn-large" type="submit" value="Search" />
+			</form>
+		</div>
+	</section>
+
+	<section class="lists">
+		<h5>My Lists</h5>
+		<article class="container lists-container">
+
+			<% lists.forEach(function(list) { %>
+				<a href="/lists/<%= list.id %>"><h4><%= list.name %></h4></a>
+				<a class="btn-large delete-list-btn" href="/lists/<%= list.id %>">Remove List</a>
+
+				<div class="list-books row">
+					<% list.books.forEach(function(book) { %>
+						<div class="col s2">
+							<a href="/books/<%= book.id %>">
+								<img src="<%= book.imgUrl %>" />
+								<p><%= book.title %></p>
+								<p><%= book.author %></p>
+							</a>
+						</div>
+					<% }); %>
+				</div>
+			<% }); %>
+
+		</article>
+	</section>
+
+	<aside class="myGroups">
+		<h5>My Groups</h5>
+		<% groups.forEach(function(group) { %>
+			<div class="group-container">
+				<a href="/groups/<%= group.id %>"><%= group.name %></a>
+			</div>
+		<% }); %>
+	</aside>
+</main>

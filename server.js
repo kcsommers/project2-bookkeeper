@@ -1,18 +1,22 @@
 require('dotenv').config();
 var express = require('express');
 var ejsLayouts = require('express-ejs-layouts');
-var bodyParser = require('body-parser');
+var bp = require('body-parser');
 var session = require('express-session');
+var multer = require('multer');
+var upload = multer({dest: './uploads/'});
+var cloudinary = require('cloudinary');
 var passport = require('./config/passportConfig');
-var isLoggedIn = require('./middleware/isLoggedIn');
 var flash = require('connect-flash');
+var port = process.env.PORT || 2000;
 
 var app = express();
 
 app.set('view engine', 'ejs');
 
 app.use(require('morgan')('dev'));
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bp.urlencoded({ extended: false }));
+app.use(express.static(__dirname + '/static'));
 app.use(ejsLayouts);
 
 // this needs to come before you app.use passport
@@ -38,15 +42,21 @@ app.use(function(req, res, next) {
 });
 
 app.get('/', function(req, res) {
-  res.render('index');
-});
-
-app.get('/profile', isLoggedIn, function(req, res) {
-  res.render('profile');
+  res.render('index', {user: req.user});
 });
 
 app.use('/auth', require('./controllers/auth'));
+app.use('/api', require('./controllers/api'));
+app.use('/user', require('./controllers/user'));
+app.use('/lists', require('./controllers/lists'));
+app.use('/books', require('./controllers/books'));
+app.use('/quotes', require('./controllers/quotes'));
+app.use('/notes', require('./controllers/notes'));
+app.use('/groups', require('./controllers/groups'));
+app.use('/posts', require('./controllers/posts'));
 
-var server = app.listen(process.env.PORT || 3000);
+var server = app.listen(port, function() {
+	console.log('running on port: ' + port);
+});
 
 module.exports = server;

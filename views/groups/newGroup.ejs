@@ -1,0 +1,18 @@
+<h1>Create a New Book Club</h1>
+
+<form id="create-group-form" method="POST" action="/groups">
+	<input hidden type="text" name="bookId" value="<%= book.id %>">
+	<label>Group Admin:
+		<input readonly type="text" name="admin" value="<%= user %>" />
+	</label>
+	<label>Topic:
+		<input readonly type="text" name="topic" value="<%= book.title %>" />
+	</label>
+	<label>Group Name:
+		<input type="text" name="name" />
+	</label>
+	<label>Description:
+		<input type="text" name="description" />
+	</label>
+	<input type="submit" value="Create Group">
+</form>

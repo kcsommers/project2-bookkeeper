@@ -1,0 +1,71 @@
+<script>
+	$('.search-results-container').empty();
+</script>
+
+<h5>New Search</h5>
+<form id="search-form" method="POST" action="/api">
+	<input type="text" name="searchTerm" />
+	<input class="btn-large" type="submit" value="Search" />
+</form>
+
+<div class="search-results-container">
+	
+	<% if (user) { -%>
+		<% results.forEach(function(book, i){ %>
+
+			<% let imgSrc; %>
+			<% if (book.volumeInfo.imageLinks 
+			&& book.volumeInfo.imageLinks.thumbnail){ %>
+				<% imgSrc = book.volumeInfo.imageLinks.thumbnail %>
+			<% } else { %>
+				<% imgSrc = "/img/missingBookCover.jpg" %>
+			<% } %>
+			
+
+			<div class="results-book-container">
+				<h2><%= book.volumeInfo.title %></h2>
+				<h4><%= book.volumeInfo.authors %></h4>
+				<p><%= book.volumeInfo.description %></p>
+				<img src="<%= imgSrc %>" />
+
+				<form id="add-to-list-form-<%= i %>" method="POST" action="/books">
+					<input hidden type="text" name="title" value="<%= book.volumeInfo.title %>" />
+					<input hidden type="text" name="author" value="<%= book.volumeInfo.authors %>" />
+					<input hidden type="text" name="description" value="<%= book.volumeInfo.description %>" />
+					<input hidden type="text" name="imgSrc" value="<%= imgSrc %>" />
+					<input class="btn-large" type="submit" value="Add to List" />
+				</form>
+
+				<div class="input-field">
+				  <select name="selectList" form="add-to-list-form-<%= i %>">
+				    <option disabled selected>Select List</option>
+				    <% lists.forEach(function(list){ %> 
+				    	<option value="<%= list.name %>"><%= list.name %></option>
+				    <% }); %>
+				  </select>
+				</div>
+
+			</div>
+		<% }); %>
+	<% } else { -%>
+		<p>Login or create an account to add books to your lists!</p>
+		<% results.forEach(function(book){ %>
+
+			<% let imgSrc; %>
+			<% if (book.volumeInfo.imageLinks 
+			&& book.volumeInfo.imageLinks.thumbnail){ %>
+				<% imgSrc = book.volumeInfo.imageLinks.thumbnail %>
+			<% } else { %>
+				<% imgSrc = "/img/missingBookCover.jpg" %>
+			<% } %>
+
+			<div class="book-container">
+				<h2><%= book.volumeInfo.title %></h2>
+				<h4><%= book.volumeInfo.authors %></h4>
+				<p><%= book.volumeInfo.description %></p>
+				<img src="<%= imgSrc %>" />
+			</div>
+		<% }); %>
+	<% } -%>
+	
+</div>

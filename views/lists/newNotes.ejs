@@ -1,0 +1,16 @@
+<h1>New Quote</h1>
+
+<form id="new-quote-form" method="POST" action="/quotes">
+	<input type="text" name="content" />
+	<input type="text" name="page" />
+	<input hidden type="text" name="bookId" value="<%= book.id %>">
+	<input class="btn-large" type="submit" value="Add Quote">
+</form>
+
+<h1>New Note</h1>
+
+<form id="new-note-form" method="POST" action="/notes">
+	<input type="text" name="content" />
+	<input hidden type="text" name="bookId" value="<%= book.id %>">
+	<input class="btn-large" type="submit" value="Add Note">
+</form>

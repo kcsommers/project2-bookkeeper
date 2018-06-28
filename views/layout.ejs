@@ -3,20 +3,52 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Authentication</title>
-
-    <!-- Latest compiled and minified CSS & JS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <title>Bookkeeper</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Pacifico" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
   </head>
-  <body>
-    <div class="container">
-      <h1>Authentication</h1>
-      <%- JSON.stringify(currentUser) %>
-      <% include partials/alerts %>
-      <%- body %>
-    </div>
+    <body>
+      <header>
+        <nav class="main-nav">
+          <div class="nav-wrapper">
 
-    <script src="//code.jquery.com/jquery.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
-  </body>
+            <div class="logo-container">
+              <a href="/"><img src="/img/bookLogo.png" />Bookkeeper</a>
+            </div>
+
+            <div class="main-menu-container">
+              <ul class="right hide-on-med-and-down">
+                <li><a href="/">Home</a></li>
+                <% if (user) { %>
+                    <li><a href="/user/profile">Profile</a></li>
+                    <li><a href="/auth/logout">Logout</a></li>
+                <% } else { %>
+                    <li><a href="/auth/login">Login</a></li>
+                    <li><a href="/auth/signup">Signup</a></li>
+                <% } %>
+                <li>
+                  <form id="nav-search-groups-form" method="GET" action="/groups">
+                    <i class="navbar-search fa fa-search fa-1x"></i>
+                    <input type="text" name="searchTerm" placeholder="Search Clubs" />
+                  </form>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+        </nav>
+      </header>
+
+        <% include partials/alerts %>
+        <%- body %>
+
+      <footer>
+        <p>Developed by M Kacy Sommers</p>
+      </footer>
+    </body>
 </html>
