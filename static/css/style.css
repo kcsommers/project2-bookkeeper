@@ -11,6 +11,18 @@ html, body {height: 100%;}
 	Materialize overwrites 
 *******************/
 
+h1, h2, h3, h4, h5, h6, p {
+	margin: 0;
+	padding: 0;
+}
+
+.row {
+	margin: 0;
+}
+
+.col {
+	padding: 0 !important;
+}
 
 /****************** 
 	Layout.ejs 
@@ -83,19 +95,91 @@ footer {
 	user/profile.ejs 
 *******************/
 
-.profile-main {
+.profile-container {
 	display: grid;
-	grid-template-rows: 20em 1fr;
-  	grid-template-areas: "profile groups" "lists groups";
-  	grid-template-columns: 1fr 20em;
-  	padding: 50px;
+  	grid-template-areas: "profile-left profile-right";
+  	grid-template-columns: 1fr 25em;
 }
 
-.profile-info {
-	grid-area: profile;
+.profile-right {
+	grid-area: profile-right;
+	text-align: right;
+	padding: 1.5em;
+}
+
+.profile-left {
+	grid-area: profile-left;
 	display: grid;
-	grid-template-areas: "user-info profile-menu";
-	grid-template-columns: 15em 1fr;
+	grid-template-areas: "profile-top" "profile-bottom";
+	grid-template-rows: 22em 1fr;
+	padding: 3em;
+	box-shadow: inset 0 10px 170px -10px #888;
+	background: linear-gradient(to bottom right, #fff, #f0f2f2);
+}
+
+.profile-top {
+	grid-area: profile-top;
+	display: grid;
+	grid-template-areas: "profile-pic profile-edit profile-search"
+						 "user-info profile-nav profile-nav";
+	grid-template-columns: 13.3em 10em 1fr;
+}
+
+.profile-bottom {
+	grid-area: profile-bottom;
+	padding: 1em;
+}
+
+.profile-top:hover .profile-edit {
+	opacity: 1;
+}
+
+.user-info {
+	grid-area: user-info;
+}
+
+.user-info h3{
+	padding: 0;
+}
+
+.profile-edit {
+	grid-area: profile-edit;
+	opacity: 0;
+	transition: all 0.2s ease;
+	padding: 1em;
+}
+
+.profile-edit a {
+	font-size: 0.9em;
+}
+
+.profile-search {
+	grid-area: profile-search;
+	text-align: right;
+}
+
+.profile-image-container {
+	grid-area: profile-pic;
+	width: 200px;
+	height: 200px;
+	background-size: cover;
+	background-position: center center;
+	border-radius: 5px;
+	border: 3px solid #fff;
+}
+
+.profile-nav-container {
+	grid-area: profile-nav;
+}
+
+.profile-nav {
+	background: none;
+	box-shadow: none;
+	border-bottom: 1px solid #888;
+}
+
+.profile-nav a {
+	color: #000;
 }
 
 .lists-container {
@@ -103,28 +187,54 @@ footer {
 	width: 100%;
 }
 
-.myGroups {
-	grid-area: groups;
-	text-align: right;
-	border-left: 1px solid #333;
-	padding-left: 20px;
-	margin-left: 50px;
+.lists-container h5 {
+	margin: 0.5em 0 1em 0;
 }
 
-.profile-image-container {
-	width: 200px;
-	height: 200px;
+.list {
+	cursor: pointer;
+	position: relative;
+	padding: 2em;
 }
 
-.user-info {
-	grid-area: user-info;
-	padding: 0;
+.list:hover .delete-modal-trigger {
+	opacity: 1;
 }
 
-.user-info h3{
-	padding: 0;
+.delete-modal-trigger {
+	position: absolute;
+	top: 1em;
+	right: 2em;
+	opacity: 0;
+	transition: all 0.2s ease;
+	font-size: 1.3em;
 }
 
-.profile-menu {
-	grid-area: profile-menu;
+.list-plus {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100px;
+	border: 1px dashed rgba(0,0,0,0);
+	transition: all 0.2s ease;
 }
+
+.list-plus:hover {
+	border-color: #888;
+}
+
+.list-books {
+	text-align: center;
+	padding: 1em;
+
+}
+
+.group-container {
+	padding: 1.2em;
+	cursor: pointer;
+}
+
+.myGroups h5 {
+	margin: 1em 0;
+}
+
