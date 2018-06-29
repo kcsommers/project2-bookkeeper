@@ -2,67 +2,35 @@ var express = require('express');
 var router = express.Router();
 var request = require('request');
 var async = require('async');
+var cloudinary = require('cloudinary');
+var multer = require('multer');
+var upload = multer({dest: '../uploads/'});
 var db = require('../models');
 
 // GET /books/:id - show specific book, including notes and quotes
 router.get('/:id', function(req, res) {
 	db.book.findById(req.params.id).then(function(book) {
-		book.getQuotes({
-			where: {userId: req.user.id}
-		}).then(function(quotes) {
-			book.getNotes({
+		book.getLists().then(function(list) {
+			console.log(list)
+			book.getQuotes({
 				where: {userId: req.user.id}
-			}).then(function(notes) {
-				res.render('lists/showBook', {
-					book: book, 
-					quotes: quotes, 
-					notes: notes,
-					user: req.user
+			}).then(function(quotes) {
+				book.getNotes({
+					where: {userId: req.user.id}
+				}).then(function(notes) {
+					res.render('lists/showBook', {
+						book: book, 
+						quotes: quotes, 
+						notes: notes,
+						user: req.user,
+						list: list,
+						cloudinary: cloudinary
+					});
 				});
 			});
 		});
 	});
 });
-
-// router.post('/', function(req, res) {
-// 	db.book.findOrCreate({
-// 		where: {description: req.body.description},
-// 		defaults: {
-// 			title: req.body.title,
-// 			author: req.body.author,
-// 			description: req.body.description[0],
-// 			imgUrl: 'https://res.cloudinary.com/kcsommers/image/upload/v1528928999/i8spehj9uome2vcl0gff.jpg'
-// 		}
-// 	}).spread(function(book, created) {
-// 		if(Array.isArray(req.body.selectList)) {
-// 			let addList = function(listName, callback) {
-// 				db.list.find({
-// 					where: {
-// 						name: listName,
-// 						userId: req.user.id
-// 					}
-// 				}).then(function(list) {
-// 					book.addList(list);
-// 				});
-// 			}
-
-// 			async.each(req.body.selectList, addList);
-// 			res.redirect('/user/profile');
-// 		} 
-// 		else {
-// 			db.list.find({
-// 				where: {
-// 					name: req.body.selectList,
-// 					userId: req.user.id
-// 				}
-// 			}).then(function(list) {
-// 				book.addList(list).then(function(list) {
-// 					res.redirect('user/profile');
-// 				})
-// 			})
-// 		}
-// 	});
-// });
 
 // POST /books - create new book in db with list association
 router.post('/', function(req, res) {
@@ -72,15 +40,13 @@ router.post('/', function(req, res) {
 			userId: req.user.id
 		}
 	}).then(function(list) {
-		db.book.findOrCreate({
-			where: {description: req.body.description},
-			defaults: {
-				title: req.body.title,
-				author: req.body.author,
-				description: req.body.description,
-				imgUrl: req.body.imgSrc
-			}
-		}).spread(function(book, created) {
+		db.book.create({
+			title: req.body.title,
+			author: req.body.author,
+			description: req.body.description,
+			imgUrl: req.body.imgSrc,
+			banner: 'group-background2'
+		}).then(function(book) {
 			list.addBook(book).then(function(book) {
 				res.redirect('user/profile');
 			});
@@ -88,6 +54,21 @@ router.post('/', function(req, res) {
 	});
 });
 
+// PUT /books/edit - updat book description
+router.put('/edit', function(req, res) {
+	db.book.update({
+		description: req.body.content
+	}, {
+		where: {
+			id: req.body.bookId
+		}
+	}).then(function(book) {
+		res.sendStatus(200);
+	})
+});
+
+
+// NNNNEEEEEEDDDDDDSSSSS FFFFFFIIIIIIXXXXXXIIIIIINNNNNN
 // DELETE /books/:id - remove book listsBooks association
 // if it doesn't exist in any other lists, remove it from books table
 router.delete('/:id', function(req, res) {

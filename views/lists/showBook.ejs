@@ -1,18 +1,91 @@
-<h1><%= book.title %></h1>
-<a class="btn-large" href="/quotes/<%= book.id %>/new">Add Quote</a>
-<a class="btn-large" href="/notes/<%= book.id %>/new">Add Note</a>
+<% var bannerUrl = cloudinary.url(book.banner) %>
+<main class="show-book-page">
+	
+	<div class="book-cover">
+		<img src="<%= book.imgUrl %>" />
+	</div>
 
-<div class="quotes-container">
-	<h2>Favorite Quotes</h2>
-	<% quotes.forEach(function(quote) { %>
-		<p>"<%= quote.content %>"</p>
-		<p>Page: <%= quote.page %></p>
-	<% }); %>
+	<section style="background-image: url(<%= bannerUrl %>)" class="book-banner">
+		
+	</section>
+
+	<section class="book-info">
+		<h3><%= book.title %></h3>
+		<h5><em><%= book.author %></em></h5>
+		<p><%= book.description %><br />
+		<a class="modal-trigger edit-description-modal-trigger" href="#edit-description-modal"><i class="fa fa-edit"></i>Edit Description</a></p>
+	</section>
+
+	<section class="book-nav">
+		<div class="book-nav-container">
+			<nav class="book-navbar">
+				<div class="nav-wrapper right">
+					<ul>
+						<li><a class="modal-trigger" href="#new-quote-modal">Add Quote</a></li>
+						<li><a href="#new-note-form">Add Note</a></li>
+						<li><a href="/lists/<%= list[0].id %>">Back to List</a></li>
+					</ul>
+				</div>
+			</nav>
+		</div>
+	</section>
+
+	<section class="book-quotes">
+		<h5>Quotes</h5>
+		<div class="card quotes-card">
+			<% quotes.forEach(function(quote) { %>
+				<h6><em><%= quote.content %></em></h6>
+				<p>Page: <%= quote.page %></p>
+			<% }); %>
+			<a href="#new-quote-modal" class="new-quote-modal-trigger modal-trigger"><i class="fa fa-plus"></i></a>
+		</div>
+	</section>
+
+	<section class="book-notes">
+		<h5>Notes</h5>
+		<div class="card notes-card">
+			<% notes.forEach(function(note) { %>
+				<p><%= note.content %></p>
+			<% }); %>
+
+			<form id="new-note-form" method="POST" action="/notes">
+				<label for="content">Add Note
+					<textarea name="content"></textarea>
+				</label>
+				<input hidden type="text" name="bookId" value="<%= book.id %>" />
+				<input class="btn-large" type="submit" value="Submit" />
+			</form>
+
+		</div>
+	</section>
+</main>
+
+<div id="new-quote-modal" class="modal">
+	<div class="modal-content">
+		<h5>Add a new list</h5>
+		<form id="new-quote-form" method="POST" action="/quotes" />
+			<label for="content">Quote:
+				<input type="text" name="content" />
+			</label>
+			<label for="page">On page:
+				<input type="text" name="page" />
+			</label>
+			<input hidden type="text" name="bookId" value="<%= book.id %>" />
+			<input class="btn-large modal-close" type="submit" value="Add Quote" />
+		</form>
+	</div>
 </div>
 
-<div class="notes-container">
-	<h2>Thoughts</h2>
-	<% notes.forEach(function(note) { %>
-		<p><%= note.content %></p>
-	<% }); %>
+<div id="edit-description-modal" class="modal">
+	<div class="modal-content">
+		<h5>Edit Book Description</h5>
+		<form id="edit-description-form" method="PUT" action="/books/edit" />
+			<label for="content">Content
+				<textarea name="content"><%= book.description %></textarea>
+			</label>
+			<input hidden type="text" name="bookId" value="<%= book.id %>" />
+			<input class="btn-large modal-close" type="submit" value="Submit" />
+		</form>
+	</div>
 </div>
+

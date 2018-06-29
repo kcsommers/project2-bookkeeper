@@ -13,11 +13,20 @@ router.post	('/', function(req, res) {
 			db.list.findAll({
 				where: {userId: req.user.id}
 			}).then(function(lists) {
-				res.render('searchResults', {results: results.items, user: req.user, lists: lists});
+				res.render('searchResults', {
+					results: results.items, 
+					user: req.user, 
+					lists: lists,
+					searchTerm: req.body.searchTerm
+				});
 			});
 		}
 		else {
-			res.render('searchResults', {results: results.items, user: null});
+			res.render('searchResults', {
+				results: results.items, 
+				user: null,
+				searchTerm: req.body.searchTerm
+			});
 		}
 	});
 });

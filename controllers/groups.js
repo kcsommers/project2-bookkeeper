@@ -1,11 +1,15 @@
 var express = require('express');
 var router = express.Router();
 var request = require('request');
+var cloudinary = require('cloudinary');
+var multer = require('multer');
+var upload = multer({dest: '../uploads/'});
 var db = require('../models');
 
 // GET /groups - show all groups
 router.get('/', function(req, res) {
 	// if there is a search term
+	console.log('###', req.query.searchTerm)
 	if(req.query.searchTerm) {
 		db.group.findAll({
 			where: {topic: req.query.searchTerm}
@@ -15,7 +19,7 @@ router.get('/', function(req, res) {
 	}
 	else {
 		db.group.findAll().then(function(groups) {
-			res.render('groups/groupsIndex', {groups: groups});
+			res.render('groups/groupsIndex', {groups: groups, user: req.user});
 		});
 	}
 });
@@ -31,6 +35,7 @@ router.get('/:id', function(req, res) {
 					currUser: req.user,
 					posts: posts,
 					user: req.user,
+					cloudinary: cloudinary,
 					msg: null
 				});
 			});
@@ -55,6 +60,7 @@ router.post('/join', function(req, res) {
 						currUser: req.user,
 						user: req.user,
 						posts: posts,
+						cloudinary: cloudinary,
 						msg: (created) ? 'You have joined this group!' : 'You have already joined this group!'
 					});
 				});
@@ -84,7 +90,9 @@ router.post('/', function(req, res) {
 				name: req.body.name,
 				description: req.body.description,
 				admin: req.body.admin,
-				topic: req.body.topic
+				topic: req.body.topic,
+				imgUrl: 'group-background2',
+				bookImg: book.imgUrl
 			}).then(function(group) {
 				book.addGroup(group);
 				user.addGroup(group).then(function(data) {

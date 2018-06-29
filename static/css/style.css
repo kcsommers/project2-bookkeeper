@@ -1,20 +1,67 @@
 * {
 	padding: 0;
 	margin: 0;
-	box-sizing: border-box;}
+	box-sizing: border-box;
+}
 
 html, body {height: 100%;}
 
 .flex {display: flex;}
 
-/****************** 
-	Materialize overwrites 
-*******************/
+.page-background {
+	background-image: url('/img/page-background.jpg');
+	background-size: cover;
+	background-attachment: fixed;
+	background-position: center center;
+	padding: 5em 0;
+}
 
-h1, h2, h3, h4, h5, h6, p {
+.page-container {
+	background: linear-gradient(to bottom right, #fff, #e1e2e5);
+	box-shadow: 10px -10px 100px 0px #333;
+	border-radius: 5px;
+	width: 80%;
+	border: 3px solid #fff;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: Merriweather;
 	margin: 0;
 	padding: 0;
 }
+
+p {
+	font-family: Markazi Text;
+	font-size: 1.5em;
+	margin: 0;
+	padding: 0;
+}
+
+em {
+	color: #888;
+}
+
+textarea {
+	background-color: #fff;
+	height: 150px;
+	padding: 1em;
+	font-size: 1.1em;
+	max-width: 100%;
+}
+
+input[type=submit] {
+	margin-top: 0.7em;
+}
+
+.clearfix:after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+/**************************
+	Materialize 
+*******************/
 
 .row {
 	margin: 0;
@@ -22,6 +69,14 @@ h1, h2, h3, h4, h5, h6, p {
 
 .col {
 	padding: 0 !important;
+}
+
+.card {
+	padding: 1em;
+}
+
+.card-title {
+	font-size: 30px !important;
 }
 
 /****************** 
@@ -53,23 +108,6 @@ h1, h2, h3, h4, h5, h6, p {
 	margin-right: 0.5em;
 }
 
-#nav-search-groups-form {
-	position: relative;
-}
-
-.navbar-search {
-	position: absolute;
-	color: #333;
-	right: 0;
-}
-
-#nav-search-groups-form input[type=text]{
-	border-bottom: none;
-	background-color: #fff;
-	border-radius: 10px;
-	height: 2rem;
-}
-
 footer {
 	background-color: #333333;
 	color: #fff;
@@ -78,6 +116,18 @@ footer {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+}
+
+/****************** 
+	Login.ejs 
+*******************/
+
+.login-container, .signup-container {
+	min-height: calc(100% - 250px);
+}
+
+.login-container h5, .signup-container h5 {
+	padding: 2em 0;
 }
 
 /****************** 
@@ -91,85 +141,128 @@ footer {
 	justify-content: center;
 }
 
-/****************** 
-	user/profile.ejs 
+/****************************** 
+		searchResults.ejs 
+*******************/
+
+.results-container {
+	display: grid;
+	grid-template-areas: "results-top" "results-bottom";
+	grid-template-rows: 15em 1fr;
+}
+
+.results-top {
+	grid-area: results-top;
+	align-items: center;
+	display: grid;
+	grid-template-areas: "showing new-search";
+}
+
+.results-bottom {
+	grid-area: results-bottom;
+	margin-top: -5em;
+}
+
+.showing-results {
+	grid-area: showing;
+	margin: -4em 0 0 -5em;
+}
+
+.new-search-container {
+	grid-area: new-search;
+	padding-left: 1em;
+	text-align: right;
+}
+
+.results-book-container {
+	display: grid;
+	grid-template-areas: "book-left book-right";
+	grid-template-columns: 12em 1fr;
+	margin: 5em 0;
+}
+
+.book-left {
+	grid-area: book-left;
+}
+
+.book-right {
+	grid-area: book-right;
+}
+
+.book-right h5 {
+	margin: 0.5em 0;
+}
+
+#find-club-form {
+	display: inline-block;
+}
+
+
+/****************************** 
+		user/profile.ejs 
 *******************/
 
 .profile-container {
 	display: grid;
-  	grid-template-areas: "profile-left profile-right";
-  	grid-template-columns: 1fr 25em;
+	grid-template-areas: "profile-pic profile-edit profile-search profile-search"
+						 "profile-info profile-nav profile-nav profile-nav"
+						 "profile-lists profile-lists profile-lists profile-groups";
+	grid-template-columns: 15em 9em 1fr 1fr;
+	grid-template-rows: 13.3em 7em 1fr;
+	padding: 2em 0;
 }
 
-.profile-right {
-	grid-area: profile-right;
-	text-align: right;
-	padding: 1.5em;
-}
-
-.profile-left {
-	grid-area: profile-left;
-	display: grid;
-	grid-template-areas: "profile-top" "profile-bottom";
-	grid-template-rows: 22em 1fr;
-	padding: 3em;
-	box-shadow: inset 0 10px 170px -10px #888;
-	background: linear-gradient(to bottom right, #fff, #f0f2f2);
-}
-
-.profile-top {
-	grid-area: profile-top;
-	display: grid;
-	grid-template-areas: "profile-pic profile-edit profile-search"
-						 "user-info profile-nav profile-nav";
-	grid-template-columns: 13.3em 10em 1fr;
-}
-
-.profile-bottom {
-	grid-area: profile-bottom;
-	padding: 1em;
-}
-
-.profile-top:hover .profile-edit {
-	opacity: 1;
-}
-
-.user-info {
-	grid-area: user-info;
-}
-
-.user-info h3{
-	padding: 0;
-}
-
-.profile-edit {
-	grid-area: profile-edit;
-	opacity: 0;
-	transition: all 0.2s ease;
-	padding: 1em;
-}
-
-.profile-edit a {
-	font-size: 0.9em;
-}
-
-.profile-search {
-	grid-area: profile-search;
-	text-align: right;
-}
-
-.profile-image-container {
+.profile-pic {
 	grid-area: profile-pic;
 	width: 200px;
 	height: 200px;
 	background-size: cover;
 	background-position: center center;
-	border-radius: 5px;
 	border: 3px solid #fff;
+	border-radius: 10px;
+	margin-left: 2em;
+}
+
+.profile-container:hover .profile-edit {
+	opacity: 0.9;
+}
+
+.profile-edit {
+	grid-area: profile-edit;
+	opacity: 0;
+	transition: .2s ease;
+	padding: 0 0.5em;
+}
+
+.profile-search {
+	grid-area: profile-search;
+	text-align: right;
+	padding: 0 3em;
+}
+
+.profile-info {
+	grid-area: profile-info;
+	padding: 0 2em;
 }
 
 .profile-nav-container {
 	grid-area: profile-nav;
+	padding: 0 1em 0 3em;
+}
+
+.profile-lists-container {
+	grid-area: profile-lists;
+	padding: 1em;
+}
+
+.profile-groups {
+	grid-area: profile-groups;
+	padding: 1em;
+	text-align: right;
+}
+
+.profile-groups h5, .profile-lists-container h5 {
+	margin-bottom: 1em;
 }
 
 .profile-nav {
@@ -179,62 +272,263 @@ footer {
 }
 
 .profile-nav a {
-	color: #000;
+	color: #888;
 }
 
-.lists-container {
-	grid-area: lists;
-	width: 100%;
+.profile-nav a:hover {
+	color: #fff;
 }
 
-.lists-container h5 {
-	margin: 0.5em 0 1em 0;
-}
-
-.list {
+.profile-list-card {
 	cursor: pointer;
 	position: relative;
-	padding: 2em;
+	padding: 2em 2em;
 }
 
-.list:hover .delete-modal-trigger {
+.profile-list-card:hover .delete-modal-trigger {
 	opacity: 1;
 }
 
-.delete-modal-trigger {
-	position: absolute;
-	top: 1em;
-	right: 2em;
-	opacity: 0;
-	transition: all 0.2s ease;
-	font-size: 1.3em;
-}
-
 .list-plus {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 100px;
+	display: block;
+	text-align: center;
+	padding: 2em 0;
 	border: 1px dashed rgba(0,0,0,0);
 	transition: all 0.2s ease;
 }
 
 .list-plus:hover {
-	border-color: #888;
+	border-color: #333;
 }
 
-.list-books {
+.delete-modal-trigger {
+	position: absolute;
+	right: 2.5em;
+	top: 2.3em;
+	font-size: 1.2em;
+	opacity: 0;
+	transition: all 0.2s ease;
+}
+
+.profile-book-container {
+	margin: 1em 0;
 	text-align: center;
-	padding: 1em;
-
 }
 
-.group-container {
-	padding: 1.2em;
+.profile-book-container p{
+	line-height: 1em;
+}
+
+.profile-group-card {
 	cursor: pointer;
 }
 
-.myGroups h5 {
+.profile-group-card img {
+	float: right;
+	margin-left: 1em;
+}
+
+
+
+/****************************** 
+		showGroup.ejs 
+*******************/
+
+.group-container {
+	display: grid;
+	grid-template-areas: "group-banner group-banner" 
+						 "group-details group-members"
+						 "group-posts group-members";
+	grid-template-columns: 1fr 20em;
+	grid-template-rows: 20em 15em 1fr;
+}
+
+.group-banner {
+	grid-area: group-banner;
+	background-size: cover;
+	background-position: center center;
+	padding: 3em;
+}
+
+.group-book-cover {
+	border: 3px solid #fff;
+}
+
+.group-details {
+	grid-area: group-details;
+	padding: 3em 5em;
+}
+
+.group-details h5 {
+	padding: 0.5em 0;
+}
+
+.group-posts {
+	grid-area: group-posts;
+	padding: 1em 5em;
+}
+
+.post-container {
+	padding: 1em;
+}
+
+.post-content {
+	padding: 1em 0;
+}
+
+#new-post-form {
+	margin: 4em 0;
+}
+
+#new-post-form h5 {
+	padding: 0.5em 0;
+}
+
+#new-post-form textarea {
+	max-width: 465px;
+}
+
+.group-members {
+	grid-area: group-members;
+	text-align: right;
+	border-left: 2px solid #999;
+	padding: 3em 3em;
+}
+
+.already-joined-msg {
+	color: red;
+}
+
+/****************************** 
+		showList.ejs 
+*******************/
+
+.list-page-book-col {
+	text-align: center;
+}
+
+.list-page-book-col img{
+	width: 65%;
+}
+
+.list-page-book-col .btn-small {
+	width: 170px;
+}
+
+/****************************** 
+		showBook.ejs 
+*******************/
+
+.show-book-page {
+	display: grid;
+	grid-template-areas: "book-banner book-banner"
+						 "book-info book-nav"
+						 "book-quotes book-quotes"
+						 "book-notes book-notes";
+	grid-template-columns: 1fr 30em;
+	grid-template-rows: 24em auto auto auto;
+	position: relative;
+}
+
+.book-cover {
+	position: absolute;
+	text-align: center;
+	top: 10em;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.book-cover img {
+	border: 5px solid #fff;
+	border-radius: 5px;
+	width: 175px;
+}
+
+.book-banner {
+	grid-area: book-banner;
+	background-size: cover;
+	background-position: center center;
+}
+
+.book-info {
+	grid-area: book-info;
+	padding: 3em 3em 3em 10em;
+}
+
+.book-info:hover .edit-description-modal-trigger {
+	opacity: 1;
+}
+
+.book-info h5 {
+	padding: 0.5em 0;
+}
+
+.edit-description-modal-trigger {
+	font-size: 0.8em;
+	opacity: 0;
+	transition: all 0.2s ease;
+}
+
+.book-nav {
+	grid-area: book-nav;
+	padding: 3em 3em 3em 0;
+}
+
+.book-nav a {
+	color: #1d4b44;
+}
+
+.book-navbar {
+	background: none;
+	box-shadow: none;
+	border-bottom: 1px solid #888;
+}
+
+.book-quotes {
+	grid-area: book-quotes;
+	padding: 0 5em;
+	margin-bottom: 3em;
+}
+
+.book-notes {
+	padding: 0 5em;
+	grid-area: book-notes;
+	margin-bottom: 3em;
+}
+
+.book-quotes h5, .book-notes h5 {
+	text-align: center;
+	margin-bottom: 1em;
+}
+
+.quotes-card, .notes-card {
+	padding: 3em;
+}
+
+.quotes-card p:not(:nth-last-child(2)):after, .notes-card p:after {
+	content: '';
+	background-color: #888;
+	display: block;
+	height: 2px;
+	border-radius: 20px;
 	margin: 1em 0;
 }
+
+.new-quote-modal-trigger {
+	display: block;
+	text-align: center;
+	color: #1d4b44;
+	font-size: 1.4em;
+}
+
+#new-note-form {
+	margin: 4em 0;
+}
+
+#new-note-form textarea {
+	display: block;
+}
+
+
+
 

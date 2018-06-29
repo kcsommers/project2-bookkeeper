@@ -5,13 +5,13 @@ $(document).ready(function() {
 	$('.modal').modal();
 
 	// list div click 
-	$('.list').click(function(e) {
+	$('.profile-list-card').click(function(e) {
 		let url = $(this).attr('data-url');
 		window.location = url;
 	});
 
 	// group click
-	$('.group-container').click(function(e) {
+	$('.profile-group-card').click(function(e) {
 		let url = $(this).attr('data-url');
 		window.location = url;
 	});
@@ -23,7 +23,7 @@ $(document).ready(function() {
 		let url = $(this).attr('href');
 		$.ajax({
 			method: 'DELETE',
-			url: url,
+			url: url
 		}).done(function(data) {
 			window.location = '/user/profile';
 		})
@@ -33,6 +33,22 @@ $(document).ready(function() {
 		let listIndex = $(this).attr('id');
 		var instance = M.Modal.getInstance($('#delete-list-modal-' + listIndex));
 		instance.open();
+	});
+
+	//update book description
+	$('#edit-description-form').submit(function(e) {
+		console.log('submit')
+		e.preventDefault();
+		let url = $(this).attr('action');
+		let newData = $(this).serialize();
+		let bookId = $(this).serializeArray();
+		$.ajax({
+			method: 'PUT',
+			url: url,
+			data: newData
+		}).done(function(data) {
+			window.location = '/books/' + bookId[1].value; 
+		});
 	});
 
 	// delete book

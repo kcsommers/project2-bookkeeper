@@ -1,14 +1,30 @@
-<h1><%= list.name %></h1>
 
-<% list.books.forEach(function(book){ %>
-	<div class="list-books-container">
-		<h3><%= book.title %></h3>
-		<h5><%= book.author %></h5>
+<main class="page-background list-page-background">
+	<section class="container page-container list-page-container">
+		<h5><%= list.name %></h5>
+		<div class="row list-page-row">
+			<% list.books.forEach(function(book, i){ %>
+				<article class="list-page-book-col col l3 s4">
+					<img src="<%= book.imgUrl %>">
+					<h6><%= book.title %></h6>
+					<p><em><%= book.author %></em></p>
 
-		<a class="btn-large start-spec-group-btn" href="/groups/<%= book.id %>/new">Start a Group</a>
+					<a class="btn-small start-spec-group-btn" href="/groups/<%= book.id %>/new">Start a Group</a>
 
-		<a class="btn-large find-spec-group-btn" href="/groups/<%= book.id %>">Find a Group</a>
+					<form id="nav-search-groups-form" method="GET" action="/groups">
+					  <input hidden type="text" name="searchTerm" value="<%= book.title %>" />
+					  <input class="btn-small" type="submit" value="Search Clubs">
+					</form>
 
-		<a class="btn-large delete-book-btn" data-id="<%= list.id %>" href="/books/<%= book.id %>">Remove From List</a>
-	</div>
-<% }); %>
+					<a class="btn-small delete-book-btn" data-id="<%= list.id %>" href="/books/<%= book.id %>">Remove From List</a>
+				</article>
+			<% }); %>
+		</div>
+	</section>
+</main>
+
+<% if (bookCounter < 4) { -%>
+	
+<% } else { -%>
+	
+<% } -%>

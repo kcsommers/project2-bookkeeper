@@ -1,3 +1,9 @@
+
+<form id="nav-search-groups-form" method="GET" action="/groups">
+  <input type="text" name="searchTerm" />
+  <input class="btn-large" type="submit" value="Search Clubs">
+</form>
+
 <% if (groups.length) { %>
 	<% groups.forEach(function(group){ %>
 		<a href="groups/<%= group.id %>">

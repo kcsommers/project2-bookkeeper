@@ -1,41 +1,61 @@
-<% if (msg) { %>
-	<p><%= msg %></p>
-<% } %>
+<% var imgUrl = cloudinary.url(group.imgUrl) %>
 
-<h2><%= group.name %></h2>
-<h4><%= group.topic %></h4>
-<p><%= group.description %></p>
+<main class="page-background group-page-background">
+	<section class="container group-container page-container">	
+		<section style="background-image: url(<%= imgUrl %>)" class="group-banner">
+			<div class="group-book">
+				<img class="group-book-cover" src="<%= group.bookImg %>" />
+			</div>
+		</section>
+
+		<section class="group-details">
+			<h4><%= group.name %></h4>
+			<h5><em><%= group.topic %></em></h5>
+			<p><%= group.description %></p>
+
+			<hr style="margin-top: 30px" />
+		</section>
 
 
-<% users.forEach(function(user) { %>
-	<h4><%= user.name %></h4>
-<% }); %>
+		<section class="group-posts">
+			<h5>Recent posts</h5>
+			<% posts.forEach(function(post){ %>
+				<div class="post-container card">
+					<p><%= post.user.name %></p>
+					<hr />
+					<p class="post-content"><%= post.content %></p>
+				</div>
+			<% }); %>
 
-<% if (currUser) { -%>
-	<form id="join-group-form" method="POST" action="/groups/join">
-		<input hidden type="text" name="group" value="<%= group.id %>">
-		<input hidden type="text" name="user" value="<%= currUser.id %>">
-		<input class="btn-large" type="submit" value="Join Group">
-	</form>
-<% } else { %>
-	<h4>Login or create an account to join this group!</h4>
-<% } %>
+			<form id="new-post-form" method="POST" action="/posts">
+				<h5>Post to group</h5>
+				<input hidden type="text" name="user" value="<%= currUser.id %>" />
+				<input hidden type="text" name="group" value="<%= group.id %>" />
+				<textarea name="content"></textarea>
+				<input class="btn-large" type="submit" value="submit" />
+			</form>
+		</section>
 
-<div class="posts-container">
-	<h3>Posts</h3>
-	<% posts.forEach(function(post){ %>
-		<div class="post-container">
-			<h6><%= post.user.name %></h6>
-			<p><%= post.content %></p>
-		</div>
-		<hr />
-	<% }); %>
 
-	<h6>Post to Group</h6>
-	<form id="new-post-form" method="POST" action="/posts">
-		<input hidden type="text" name="user" value="<%= currUser.id %>" />
-		<input hidden type="text" name="group" value="<%= group.id %>" />
-		<textarea name="content"></textarea>
-		<input class="btn-large" type="submit" value="submit" />
-	</form>
-</div>
+		<section class="group-members">
+			<h5>Members</h5>
+			<% users.forEach(function(user) { %>
+				<% let memberImg = cloudinary.url(user.imgUrl) %>
+				<p><%= user.name %></p>
+				<img src="<%= memberImg %>" width="75px" />
+			<% }); %>
+			<% if (currUser) { -%>
+				<form id="join-group-form" method="POST" action="/groups/join">
+					<input hidden type="text" name="group" value="<%= group.id %>">
+					<input hidden type="text" name="user" value="<%= currUser.id %>">
+					<input class="btn-large" type="submit" value="Join Group">
+				</form>
+				<% if (msg) { %>
+					<p class="already-joined-msg"><%= msg %></p>
+				<% } %>
+			<% } else { %>
+				<h4>Login or create an account to join this group!</h4>
+			<% } %>
+		</section>
+	</section>
+</main>

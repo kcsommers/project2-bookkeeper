@@ -13,7 +13,8 @@ module.exports = (sequelize, DataTypes) => {
     description: DataTypes.TEXT,
     admin: DataTypes.STRING,
     topic: DataTypes.STRING,
-    imgUrl: DataTypes.STRING
+    imgUrl: DataTypes.STRING,
+    bookImg: DataTypes.STRING
   }, {});
   group.associate = function(models) {
     // associations can be defined here

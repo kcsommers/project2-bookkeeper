@@ -1,88 +1,90 @@
 <% var imgUrl = cloudinary.url(user.imgUrl) %>
-<main class="profile-container">
+<main class="page-background profile-page-background">
 
-	<div class="profile-left">
+	<section class="container page-container profile-container">
 
-		<section class="profile-top">
-			<div style="background-image: url(<%= imgUrl %>)" class="profile-image-container"></div>
+		<!-- ******* TOP ROW ************* -->
+		<div class="profile-pic" style="background-image: url(<%= imgUrl %>)">
+			
+		</div>
 
-			<div class="user-info">
-				<h4><%= user.name %></h4>
-				<p><%= user.location %></p>
-			</div>
-
+		<div class="profile-edit">
 			<div class="profile-edit">
 				<a class="modal-trigger" href="#edit-profile-modal"><i class="fa fa-edit"></i>Edit Profile</a>
 			</div>
+		</div>
 
-			<div class="profile-nav-container">
-				<nav class="profile-nav">
-					<div class="nav-wrapper right">
-						<ul>
-							<li><a class="modal-trigger" href="#new-list-modal">Add List</a></li>
-							<li><a href="#">Find Friends</a></li>
-							<li><a href="#">Find Clubs</a></li>
-						</ul>
-					</div>
-				</nav>
-			</div>
+		<div class="profile-search">
+			<h5>Find books</h5>
+			<form id="search-form" method="POST" action="/api">
+				<input type="text" name="searchTerm" placeholder="Title, author or isbn" />
+				<input class="btn-large" type="submit" value="Search" />
+			</form>
+		</div>
 
-			<div class="profile-search">
-				<h5>Find books</h5>
-				<form id="search-form" method="POST" action="/api">
-					<input type="text" name="searchTerm" placeholder="Title, author or isbn" />
-					<input class="btn-large" type="submit" value="Search" />
-				</form>
-			</div>
+		<!-- ******* MIDDLE ROW ************* -->
+		<div class="profile-info">
+			<h4><%= user.name %></h4>
+			<p><%= user.location %></p>
+		</div>
 
-		</section>
+		<div class="profile-nav-container">
+			<nav class="profile-nav">
+				<div class="nav-wrapper">
+					<ul>
+						<li><a class="modal-trigger" href="#new-list-modal">Add List</a></li>
+						<li><a href="#">Find Friends</a></li>
+						<li><a href="/groups">Find Clubs</a></li>
+					</ul>
+				</div>
+			</nav>
+		</div>
 
-		<section class="profile-bottom">
+		<!-- ******* BOTTOM ROW ************* -->
+		<article class="profile-lists-container">
+			<h5>My Lists</h5>
+			<% lists.forEach(function(list, i) { %>
 
-			<article class="container lists-container">
-				<h5>My Lists</h5>
-				<% lists.forEach(function(list, i) { %>
+				<div data-url="/lists/<%= list.id %>" class="profile-list-card card">
+					<i id="<%= i %>"class="delete-modal-trigger fa fa-trash-alt"></i>
+					<p class="card-title profile-list-card-title"><%= list.name %></p>
 
-					<div data-url="/lists/<%= list.id %>" class="list card">
-						<i id="<%= i %>"class="delete-modal-trigger fa fa-trash-alt"></i>
-						<p class="card-title"><%= list.name %></p>
-
-						<div class="list-books row">
-							<% list.books.forEach(function(book) { %>
-								<div class="book-container col s6 l3">
-									<a href="/books/<%= book.id %>">
-										<img src="<%= book.imgUrl %>" />
-										<p><%= book.title %></p>
-									</a>
-								</div>
-							<% }); %>
-						</div>
-						<div id="delete-list-modal-<%= i %>" class="modal">
-							<div class="modal-content">
-								<h5>Are you sure?</h5>
-								<p>Removing this list will also delete its books. If you'd like to save your notes, move your books to a new list.</p>
-								<button class="btn-danger delete-list-btn" href="/lists/<%= list.id %>">DELETE LIST</button>
+					<div class="list-books row">
+						<% list.books.forEach(function(book) { %>
+							<div class="profile-book-container col m6 l3">
+								<a href="/books/<%= book.id %>">
+									<img src="<%= book.imgUrl %>" />
+									<p><%= book.title %></p>
+								</a>
 							</div>
-						</div>
+						<% }); %>
 					</div>
-				<% }); %>
+				</div>
 
-				<a class="modal-trigger list-plus" href="#new-list-modal"><i class="fa fa-plus fa-2x"></i></a>
-			</article>
+				<div id="delete-list-modal-<%= i %>" class="modal">
+					<div class="modal-content">
+						<h5>Are you sure?</h5>
+						<p>Deleting this list will also remove its books. If you'd like to save your notes, move your books to a different list.</p>
+						<button class="btn-large red delete-list-btn" href="/lists/<%= list.id %>">DELETE LIST</button>
+					</div>
+				</div>
+			<% }); %>
 
-		</section>
-	</div>
+			<a class="modal-trigger list-plus" href="#new-list-modal"><i class="fa fa-plus fa-2x"></i></a>
+		</article>
 
-
-	<aside class="profile-right myGroups">
-		<h5>My Clubs</h5>
-		<% groups.forEach(function(group) { %>
-			<div data-url="/groups/<%= group.id %>" class="group-container card">
-				<p class="myGroups-card-title card-title"><%= group.name %></p>
-				<p>Topic: <%= group.topic %></p>
-			</div>
-		<% }); %>
-	</aside>
+		<aside class="profile-groups">
+			<h5>My Clubs</h5>
+			<% groups.forEach(function(group) { %>
+				<% var groupImg = cloudinary.url(group.bookImg) %>
+				<div data-url="/groups/<%= group.id %>" class="profile-group-card card clearfix">
+					<img src="<%= groupImg %>" width="50px" />
+					<p class="myGroups-card-title card-title"><%= group.name %></p>
+					<p>Topic: <%= group.topic %></p>
+				</div>
+			<% }); %>
+		</aside>
+	</section>
 </main>
 
 <div id="new-list-modal" class="modal">
@@ -105,10 +107,3 @@
 		<input type="submit" class="btn-large modal-close" />
 	</form>
 </div>
-
-<!-- 
-
-<form id="nav-search-groups-form" method="GET" action="/groups">
-  <i class="navbar-search fa fa-search fa-1x"></i>
-  <input type="text" name="searchTerm" placeholder="Search Clubs" />
-</form> -->

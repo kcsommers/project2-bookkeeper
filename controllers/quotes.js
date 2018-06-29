@@ -8,7 +8,7 @@ router.get('/:id/new', function(req, res) {
 	db.book.find({
 		where: {id: req.params.id}
 	}).then(function(book) {
-		res.render('lists/newNotes', {book: book});
+		res.render('lists/newNotes', {book: book, user: req.user});
 	})
 });
 
