@@ -46,8 +46,8 @@
 				<% users.forEach(function(user) { %>
 					<div class="col s4">
 						<% let memberImg = cloudinary.url(user.imgUrl) %>
-						<div style="background-image: url(<%= memberImg %>)" class="member-photo">
-						</div>
+						<a href="/user/<%= user.id %>"><div style="background-image: url(<%= memberImg %>)" class="member-photo">
+						</div></a>
 						<p><%= user.name %></p>
 					</div>
 				<% }); %>
@@ -69,11 +69,20 @@
 </main>
 
 <div id="edit-group-banner-modal" class="modal">
-	<h5>Update Group</h5>
-	<form class="update-group-form" enctype="multipart/form-data" method="POST" action="/groups/<%= group.id %>/update">
-		<input type="text" name="name" value="<%= group.name %>" />
-		<input type="text" name="description" value="<%= group.description %>" />
-		<img src="<%= imgUrl %>" width="200px" /><input type="file" name="groupPic" />
-		<input type="submit" class="btn-large modal-close" />
-	</form>
+	<div class="modal-content">
+		<h5>Update Group</h5>
+		<form class="update-group-form" enctype="multipart/form-data" method="POST" action="/groups/<%= group.id %>/update">
+			<label for="name">Group name:
+				<input type="text" name="name" value="<%= group.name %>" />
+			</label>
+			<label for="description">Description:
+				<input type="text" name="description" value="<%= group.description %>" />
+			</label>
+			<div class="modal-thumbnail">
+				<img src="<%= imgUrl %>" width="200px" />
+			</div>
+			<input type="file" name="groupPic" />
+			<input type="submit" class="btn-large modal-close" />
+		</form>
+	</div>
 </div>

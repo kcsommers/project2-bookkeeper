@@ -7,15 +7,37 @@ var multer = require('multer');
 var upload = multer({dest: '../uploads/'});
 
 
-// GET /user/profile - gets users profile page
-router.get('/profile', isLoggedIn, function(req, res) {
+// GET /user - gets the search for friends page
+router.get('/search', function(req, res) {
+	console.log('HIIITT')
+	res.render('user/findUsers', {user: req.user, cloudinary: cloudinary});
+});
+
+// POST /user - finds users reading the searched book
+router.post('/', function(req, res) {
+	db.book.findAll({
+		where: {title: req.body.searchTerm},
+		include: [db.user]
+	}).then(function(books) {
+		res.render('user/showUsers', {
+			user: req.user, 
+			books: books,
+			searchTerm: req.body.searchTerm,
+			cloudinary: cloudinary
+		});
+	})
+});
+
+// GET /user/:id - gets users profile page
+router.get('/:id', isLoggedIn, function(req, res) {
 	db.list.findAll({
-		where: {userId: req.user.id},
+		where: {userId: req.params.id},
 		include: [db.book]
 	}).then(function(lists) {
-		db.user.findById(req.user.id).then(function(user){
+		db.user.findById(req.params.id).then(function(user){
 			user.getGroups().then(function(groups) {
 				res.render('user/profile', {
+					currUser: req.user,
 					user: user, 
 					lists: lists, 
 					groups: groups,
@@ -44,7 +66,7 @@ router.post('/:id/update', upload.single('userPic'), function(req, res) {
 			}, {
 				where: {id: req.user.id}
 			}).then(function(data) {
-				res.redirect('/user/profile');
+				res.redirect('/user/' + req.user.id);
 			});
 		});
 	}
@@ -55,50 +77,9 @@ router.post('/:id/update', upload.single('userPic'), function(req, res) {
 		}, {
 			where: {id: req.user.id}
 		}).then(function(data) {
-			res.redirect('/user/profile');
+			res.redirect('/user/' + req.user.id);
 		});
 	}
 });
-
-// GET /user - gets the search for friends page
-router.get('/search', function(req, res) {
-	res.render('user/findUsers', {user: req.user, cloudinary: cloudinary});
-});
-
-// POST /user - finds users reading the searched book
-router.post('/', function(req, res) {
-	db.book.findAll({
-		where: {title: req.body.searchTerm},
-		include: [db.user]
-	}).then(function(books) {
-		res.render('user/showUsers', {
-			user: req.user, 
-			books: books,
-			searchTerm: req.body.searchTerm,
-			cloudinary: cloudinary
-		});
-	})
-});
-
-// GET /:id/user - gets specific user profile
-router.get('/:id', function(req, res) {
-	db.list.findAll({
-		where: {userId: req.params.id},
-		include: [db.book]
-	}).then(function(lists) {
-		db.user.findById(req.params.id).then(function(user){
-			user.getGroups().then(function(groups) {
-				res.render('user/friendProfile', {
-					user: user, 
-					lists: lists, 
-					groups: groups,
-					cloudinary: cloudinary
-				});
-			});
-		});
-	});
-});
-
-
 
 module.exports = router;

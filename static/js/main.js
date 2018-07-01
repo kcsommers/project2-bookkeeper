@@ -1,31 +1,46 @@
 $(document).ready(function() {
 	console.log('DOC READY');
-	// initialize materialize select form and modals
+	// initialize materialize select form, modals and dropdown
 	$('select').formSelect();
 	$('.modal').modal();
+	$('.dropdown-trigger').dropdown();
 
 	// list div click 
-	$('.profile-list-card').click(function(e) {
+	$('.profile-list').click(function(e) {
 		let url = $(this).attr('data-url');
 		window.location = url;
 	});
 
 	// group click
-	$('.profile-group-card').click(function(e) {
+	$('.profile-groups .card').click(function(e) {
 		let url = $(this).attr('data-url');
 		window.location = url;
 	});
 
-	// delete lists
-	$('.delete-list-btn').click(function(e) {
-		console.log('click')
+	// Find clubs trigger submit
+	$('.find-clubs-trigger').click(function(e) {
 		e.preventDefault();
-		let url = $(this).attr('href');
+		let formId = $(this).attr('href');
+		$('#find-clubs-form-' + formId).trigger('submit');
+	});
+
+	// Find friends trigger submit
+	$('.find-friends-trigger').click(function(e) {
+		e.preventDefault();
+		let formId = $(this).attr('href');
+		$('#find-friends-form-' + formId).trigger('submit');
+	});
+
+	// delete lists
+	$('#delete-list-form').submit(function(e) {
+		e.preventDefault();
+		let url = $(this).attr('action');
+		let user = $(this).serializeArray()
 		$.ajax({
 			method: 'DELETE',
 			url: url
 		}).done(function(data) {
-			window.location = '/user/profile';
+			window.location = '/user/' + user[0].value; ;
 		})
 	});
 	$('.delete-modal-trigger').on('click', function(e) {

@@ -111,10 +111,13 @@
 </div>
 
 <div id="update-book-banner-modal" class="modal">
-	<h5>Update Cover Photo</h5>
-	<form class="update-group-form" enctype="multipart/form-data" method="POST" action="/books/<%= book.id %>/update">
-		<img src="<%= bannerUrl %>" width="300px" /><input type="file" name="groupPic" />
-		<input type="submit" class="btn-large modal-close" />
-	</form>
+	<div class="modal-content">
+		<h5>Update Cover Photo</h5>
+		<img src="<%= bannerUrl %>" width="100%" />
+		<form class="update-group-form" enctype="multipart/form-data" method="POST" action="/books/<%= book.id %>/update">
+			<input type="file" name="groupPic" />
+			<input type="submit" class="btn-large modal-close" />
+		</form>
+	</div>
 </div>
 

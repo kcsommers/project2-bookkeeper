@@ -20,18 +20,20 @@
 	<section class="results-bottom">
 
 		<% books.forEach(function(book, i){ %>
-			<% var imgUrl = cloudinary.url(book.user.imgUrl) %>
-			<a href="/user/<%= book.user.id %>">
-				<article class="results-user-container card">
-					<div class="results-user-pic" style="background-image: url(<%= imgUrl %>)">
-					</div>
+			<% if (book.user.id !== user.id) { %>
+				<% var imgUrl = cloudinary.url(book.user.imgUrl) %>
+				<a href="/user/<%= book.user.id %>">
+					<article class="results-user-container card">
+						<div class="results-user-pic" style="background-image: url(<%= imgUrl %>)">
+						</div>
 
-					<div class="results-user-info">
-						<h5><%= book.user.name %></h5>
-						<h6><em><%= book.user.location %></em></h6>
-					</div>
-				</article>
-			</a>
+						<div class="results-user-info">
+							<h5><%= book.user.name %></h5>
+							<h6><em><%= book.user.location %></em></h6>
+						</div>
+					</article>
+				</a>
+			<% } %>
 		<% }); %>
 		
 	</section>

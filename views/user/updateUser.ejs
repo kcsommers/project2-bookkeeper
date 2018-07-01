@@ -1,10 +1,26 @@
 <% var imgUrl = cloudinary.url(user.imgUrl) %>
 
-<h5>Edit Profile</h5>
-<form class="update-user-form" enctype="multipart/form-data" method="POST" action="/user/<%= user.id %>/update">
-	<input type="text" name="name" value="<%= user.name %>" />
-	<input type="email" name="email" value="<%= user.email %>" />
-	<input type="text" name="location" value="<%= user.location %>" />
-	<img src="<%= imgUrl %>" width="100px" /><input type="file" name="userPic" />
-	<input type="submit" class="btn-large" />
-</form>
+
+<div class="container create-profile-container">
+	 <h5>Create Profile</h5>
+	 <form class="update-user-form" enctype="multipart/form-data" method="POST" action="/user/<%= user.id %>/update">
+
+	 	<label for="name">Username
+	 		<input type="text" name="name" value="<%= user.name %>" />
+	 	</label>
+
+	 	<label for="email">Email
+	 		<input type="email" name="email" value="<%= user.email %>" />
+	 	</label>
+
+	 	<label for="location">
+	 		<input type="text" name="location" value="<%= user.location %>" />
+	 	</label>
+
+	 	<label for="userPic">Picture
+	 		<input type="file" name="userPic" />
+	 	</label>
+	 	<img src="<%= imgUrl %>" width="100px" />
+	 	<input type="submit" class="btn-large" />
+	 </form>
+</div>

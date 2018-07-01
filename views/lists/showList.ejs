@@ -4,33 +4,73 @@
 		<h5><%= list.name %></h5>
 		<div class="row list-page-row">
 			<% list.books.forEach(function(book, i){ %>
-				<article class="list-page-book-col col l3 s4">
+				<article class="col s4 card-book-col">
 
-					<div class="list-page-book-cover">
+					<div class="card-book-cover">
 						<a href="/books/<%= book.id %>">
 							<img src="<%= book.imgUrl %>">
 						</a>
 					</div>
 
-					<div class="list-page-book-info">
+					<div class="list-page-book-info card-book-info">
 						<h6><%= book.title %></h6>
 						<p><em><%= book.author %></em></p>
 					</div>
 
 					<div class="list-page-nav">
-						<form id="nav-search-groups-form" method="GET" action="/groups">
+						<% if (list.userId === user.id) { %>
+							<a class="dropdown-trigger btn-small white " href="#book-options-dropdown-<%= i %>">Options</a>
+
+							<ul class="dropdown-content" id="book-options-dropdown-<%= i %>">
+								<li>
+									<a class="find-friends-trigger" href="<%= i %>">Find Friends</a>
+								</li>
+
+								<li>
+									<a class="find-clubs-trigger" href="<%= i %>">Find Clubs</a>
+								</li>
+
+								<li>
+									<a class="modal-trigger" href="#create-club-modal-<%= i %>">Start a Club</a>
+								</li>
+
+								<li>
+									<a class="delete-book-btn" data-id="<%= list.id %>" href="/books/<%= book.id %>">Remove From List</a>
+								</li>
+							</ul>
+						<% } %>
+						<form style="display: none;" id="find-clubs-form-<%= i %>" method="GET" action="/groups">
 						  <input hidden type="text" name="searchTerm" value="<%= book.title %>" />
-						  <input class="btn-small white" type="submit" value="Search Clubs">
 						</form>
 
-						<% if (list.userId === user.id) { %>
-							<a class="btn-small white start-spec-group-btn" href="/groups/<%= book.id %>/new">Start a Club</a>
-
-							<a class="btn-small delete-book-btn" data-id="<%= list.id %>" href="/books/<%= book.id %>">Remove From List</a>
-						<% } %>
+						<form style="display: none;" required id="find-friends-form-<%= i %>" method="POST" action="/user">
+							<input type="text" name="searchTerm" value="<%= book.title %>" />
+						</form>
 					</div>
 
 				</article>
+
+				<div id="create-club-modal-<%= i %>" class="modal">
+					<div class="modal-content">
+						<h5>Create a new book club</h5>
+						<form id="create-group-form" method="POST" action="/groups">
+							<input hidden type="text" name="bookId" value="<%= book.id %>">
+							<label>Group Admin:
+								<input readonly type="text" name="admin" value="<%= user.name %>" />
+							</label>
+							<label>Topic:
+								<input readonly type="text" name="topic" value="<%= book.title %>" />
+							</label>
+							<label>Group Name:
+								<input required type="text" name="name" />
+							</label>
+							<label>Description:
+								<textarea name="description"></textarea> 
+							</label>
+							<input class="btn-large" type="submit" value="Create Group">
+						</form>
+					</div>
+				</div>
 			<% }); %>
 		</div>
 	</section>

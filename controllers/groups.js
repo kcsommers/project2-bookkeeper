@@ -33,6 +33,11 @@ router.get('/', function(req, res) {
 	}
 });
 
+// GET /groups/search - gets search groups page
+router.get('/search', function(req, res) {
+	res.render('groups/findGroups', {user: req.user});
+});
+
 // GET /groups/:id - view specific group
 router.get('/:id', function(req, res) {
 	db.group.findById(req.params.id).then(function(group) {
@@ -107,7 +112,7 @@ router.post('/', function(req, res) {
 			}).then(function(group) {
 				book.addGroup(group);
 				user.addGroup(group).then(function(data) {
-					res.redirect('user/profile');
+					res.redirect('groups/' + group.id);
 				});
 			});
 		});

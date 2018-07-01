@@ -50,7 +50,7 @@ router.post('/', function(req, res) {
 			banner: 'group-background2'
 		}).then(function(book) {
 			list.addBook(book).then(function(book) {
-				res.redirect('user/profile');
+				res.redirect('user/' + req.user.id);
 			});
 		});
 	});

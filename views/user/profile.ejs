@@ -1,95 +1,112 @@
 <% var imgUrl = cloudinary.url(user.imgUrl) %>
+
 <main class="page-background profile-page-background">
-
 	<section class="container page-container profile-container">
+		<section class="profile-left">
+			<% if (currUser.id === user.id) { %>
+				<a class="edit-profile-trigger modal-trigger" href="#edit-profile-modal"><i class="fa fa-edit"></i>Edit Profile</a>
+			<% } %>
 
-		<!-- ******* TOP ROW ************* -->
-		<div class="profile-pic" style="background-image: url(<%= imgUrl %>)">
-			
-		</div>
-
-		<div class="profile-search">
-			<h6>Find books</h6>
-			<form id="search-form" method="POST" action="/api">
-				<input type="text" name="searchTerm" placeholder="Title, author or isbn" />
-				<input class="btn-large" type="submit" value="Search" />
-			</form>
-		</div>
-
-		<!-- ******* MIDDLE ROW ************* -->
-		<div class="profile-info">
-			<h4><%= user.name %></h4>
-			<p><%= user.location %></p>
-			<div class="profile-edit">
-				<a class="modal-trigger" href="#edit-profile-modal"><i class="fa fa-edit"></i>Edit Profile</a>
+			<!-- ******* LEFT TOP ************* -->
+			<div class="profile-pic" style="background-image: url(<%= imgUrl %>)">
+				
 			</div>
-		</div>
 
-		<div class="profile-nav-container">
-			<nav class="profile-nav">
-				<div class="nav-wrapper">
-					<ul>
-						<li><a class="modal-trigger" href="#new-list-modal">Add List</a></li>
-						<li><a href="/user/search">Find Friends</a></li>
-						<li><a href="/groups">Find Clubs</a></li>
-					</ul>
-				</div>
-			</nav>
-		</div>
+			<!-- ******* LEFT MIDDLE ************* -->
+			<div class="profile-info">
+				<h5><%= user.name %></h5>
+				<p><em><%= user.location %></em></p>
+			</div>
 
-		<!-- ******* BOTTOM ROW ************* -->
-		<article class="profile-lists-container">
-			<h5>My Lists</h5>
-			<% lists.forEach(function(list, i) { %>
+			<!-- ******* LEFT BOTTOM ************* -->
+			<section class="profile-groups">
+				<h6>My Clubs</h6>
+				<% groups.forEach(function(group) { %>
+					<% var groupImg = cloudinary.url(group.bookImg) %>
+					<article data-url="/groups/<%= group.id %>" class="profile-group card clearfix">
+						<div class="profile-group-photo"> 
+							<img src="<%= groupImg %>" width="50px" />
+						</div>
+						<div class="profile-group-name">
+							<p class="card-title"><%= group.name %></p>
+						</div>
+					</article>
+				<% }); %>
+			</section>
 
-				<div data-url="/lists/<%= list.id %>" class="profile-list-card card">
-					<i id="<%= i %>"class="delete-modal-trigger fa fa-trash-alt"></i>
-					<h6 class="card-title profile-list-card-title"><%= list.name %></h6>
+		</section>
 
-					<div class="list-books row">
-						<% list.books.forEach(function(book) { %>
-							<div class="profile-book-col col m6 l3">
+		<section class="profile-right">
 
-								<div class="profile-page-book-cover">
-									<a href="/books/<%= book.id %>">
-										<img src="<%= book.imgUrl %>" />
-									</a>
-								</div>
+			<% if (currUser.id === user.id) { -%>
+				<section class="profile-new-search">
+					<h6>Find Books</h6>
+					<form id="profile search-form" method="POST" action="/api">
+						<input type="text" name="searchTerm" placeholder="Title, author or isbn" />
+						<input class="btn-small white" type="submit" value="Search" />
+					</form>
+				</section>
+			<% } -%>
 
-								<div class="profile-page-book-info">
-									<p><%= book.title %></p>
-								</div>
+			<section class="profile-lists">
+				<h6>My Lists</h6>
+				<% lists.forEach(function(list, i) { %>
+					<article data-url="/lists/<%= list.id %>" class="card profile-list">
+						<% if (currUser.id === user.id) { %>
+							<i id="<%= i %>"class="delete-modal-trigger fa fa-trash-alt"></i>
+						<% } %>
+						
+						<div class="card-container">
+							<p class="card-title"><%= list.name %></p>
+							<div class="list-books row">
+								<% list.books.forEach(function(book, i) { %>
 
+									<% if (i < 4) { -%>
+										<div class="card-book-col col m6 l3">
+											<div class="card-book-cover">
+												<a href="/books/<%= book.id %>">
+													<img src="<%= book.imgUrl %>" />
+												</a>
+											</div>
+
+											<div class="card-book-info">
+												<p><%= book.title %></p>
+											</div>
+										</div>
+									<% } -%>
+
+								<% }); %>
 							</div>
-						<% }); %>
+						</div>
+					</article>
+
+					<div id="delete-list-modal-<%= i %>" class="modal">
+						<div class="modal-content">
+							<h5>Are you sure?</h5>
+							<p>Deleting this list will also remove its books. If you'd like to save your notes, move your books to a different list.</p>
+							<form id="delete-list-form" method="POST" action="/lists/<%= list.id %>">
+								<input hidden type="text" name="user" value="<%= user.id %>">
+								<input class="btn-large red delete-list-btn" type="submit" name="user" value="DELETE LIST">
+							</form>
+						</div>
 					</div>
-				</div>
+				<% }); %>
 
-				<div id="delete-list-modal-<%= i %>" class="modal">
-					<div class="modal-content">
-						<h5>Are you sure?</h5>
-						<p>Deleting this list will also remove its books. If you'd like to save your notes, move your books to a different list.</p>
-						<button class="btn-large red delete-list-btn" href="/lists/<%= list.id %>">DELETE LIST</button>
-					</div>
-				</div>
-			<% }); %>
+				<% if (currUser.id === user.id) { -%>
+					<a class="modal-trigger profile-list-plus" href="#new-list-modal"><i class="fa fa-plus fa-2x"></i></a>
+				<% } -%>
 
-			<a class="modal-trigger list-plus" href="#new-list-modal"><i class="fa fa-plus fa-2x"></i></a>
-		</article>
-
-		<aside class="profile-groups">
-			<h5>My Clubs</h5>
-			<% groups.forEach(function(group) { %>
-				<% var groupImg = cloudinary.url(group.bookImg) %>
-				<div data-url="/groups/<%= group.id %>" class="profile-group-card card clearfix">
-					<img src="<%= groupImg %>" width="50px" />
-					<p class="myGroups-card-title card-title"><%= group.name %></p>
-					<p>Topic: <%= group.topic %></p>
-				</div>
-			<% }); %>
-		</aside>
+			</section>
+		</section>
 	</section>
 </main>
+
+
+
+
+
+<!-- <li><a class="modal-trigger" href="#new-list-modal">Add List</a></li> -->
+
 
 <div id="new-list-modal" class="modal">
 	<div class="modal-content">
@@ -102,11 +119,21 @@
 </div>
 
 <div id="edit-profile-modal" class="modal">
-	<h5>Edit Profile</h5>
-	<form class="update-user-form" enctype="multipart/form-data" method="POST" action="/user/<%= user.id %>/update">
-		<input type="text" name="name" value="<%= user.name %>" />
-		<input type="text" name="location" value="<%= user.location %>" />
-		<img src="<%= imgUrl %>" width="100px" /><input type="file" name="userPic" />
-		<input type="submit" class="btn-large modal-close" />
-	</form>
+	<div class="modal-content">
+		<h5>Edit Profile</h5>
+		<form class="update-user-form" enctype="multipart/form-data" method="POST" action="/user/<%= user.id %>/update">
+			<label for="name">Username:
+				<input type="text" name="name" value="<%= user.name %>" />
+			</label>
+			<label for="location">Location:
+				<input type="text" name="location" value="<%= user.location %>" />
+			</label>
+			
+			<div class="modal-thumbnail">
+				<img src="<%= imgUrl %>" width="100px" />
+			</div>
+			<input type="file" name="userPic" />
+			<input type="submit" class="btn-large modal-close" />
+		</form>
+	</div>
 </div>

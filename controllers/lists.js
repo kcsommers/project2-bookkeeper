@@ -26,7 +26,7 @@ router.post('/', function(req, res) {
 			userId: req.user.id
 		}
 	}).spread(function(list, created) {
-		res.redirect('user/profile')
+		res.redirect('user/' + req.user.id)
 	});
 });
 
