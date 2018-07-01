@@ -5,13 +5,13 @@ var async = require('async');
 var cloudinary = require('cloudinary');
 var multer = require('multer');
 var upload = multer({dest: '../uploads/'});
+var moment = require('moment');
 var db = require('../models');
 
 // GET /books/:id - show specific book, including notes and quotes
 router.get('/:id', function(req, res) {
 	db.book.findById(req.params.id).then(function(book) {
 		book.getLists().then(function(list) {
-			console.log(list)
 			book.getQuotes({
 				where: {userId: req.user.id}
 			}).then(function(quotes) {
@@ -24,7 +24,8 @@ router.get('/:id', function(req, res) {
 						notes: notes,
 						user: req.user,
 						list: list,
-						cloudinary: cloudinary
+						cloudinary: cloudinary,
+						moment: moment
 					});
 				});
 			});
@@ -45,6 +46,7 @@ router.post('/', function(req, res) {
 			author: req.body.author,
 			description: req.body.description,
 			imgUrl: req.body.imgSrc,
+			userId: req.user.id,
 			banner: 'group-background2'
 		}).then(function(book) {
 			list.addBook(book).then(function(book) {
@@ -54,8 +56,28 @@ router.post('/', function(req, res) {
 	});
 });
 
-// PUT /books/edit - updat book description
-router.put('/edit', function(req, res) {
+// POST /books/:id/update - update book cover image
+router.post('/:id/update', upload.single('groupPic'), function(req, res) {
+	let imgUrl;
+	if(req.file) {
+		cloudinary.uploader.upload(req.file.path, function(result) {
+			imgUrl = result.public_id;
+			db.book.update({
+				banner: imgUrl
+			}, {
+				where: {id: req.params.id}
+			}).then(function(data) {
+				res.redirect('/books/' + req.params.id);
+			});
+		});
+	}
+	else {
+		res.redirect('/books/' + req.params.id);
+	}
+});
+
+// PUT /books/update - update book description
+router.put('/update', function(req, res) {
 	db.book.update({
 		description: req.body.content
 	}, {

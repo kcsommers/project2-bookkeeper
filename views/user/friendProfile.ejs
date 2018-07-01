@@ -1,0 +1,60 @@
+<% var imgUrl = cloudinary.url(user.imgUrl) %>
+<main class="page-background profile-page-background">
+
+	<section class="container page-container profile-container">
+
+		<!-- ******* TOP ROW ************* -->
+		<div class="profile-pic" style="background-image: url(<%= imgUrl %>)">
+			
+		</div>
+
+		<!-- ******* MIDDLE ROW ************* -->
+		<div class="profile-info">
+			<h4><%= user.name %></h4>
+			<p><%= user.location %></p>
+		</div>
+
+		<!-- ******* BOTTOM ROW ************* -->
+		<article class="profile-lists-container">
+			<h5>My Lists</h5>
+			<% lists.forEach(function(list, i) { %>
+
+				<div data-url="/lists/<%= list.id %>" class="profile-list-card card">
+					<h6 class="card-title profile-list-card-title"><%= list.name %></h6>
+
+					<div class="list-books row">
+						<% list.books.forEach(function(book) { %>
+							<div class="profile-book-col col m6 l3">
+
+								<div class="profile-page-book-cover">
+									<a href="/books/<%= book.id %>">
+										<img src="<%= book.imgUrl %>" />
+									</a>
+								</div>
+
+								<div class="profile-page-book-info">
+									<p><%= book.title %></p>
+								</div>
+
+							</div>
+						<% }); %>
+					</div>
+				</div>
+			<% }); %>
+
+			<a class="modal-trigger list-plus" href="#new-list-modal"><i class="fa fa-plus fa-2x"></i></a>
+		</article>
+
+		<aside class="profile-groups">
+			<h5>My Clubs</h5>
+			<% groups.forEach(function(group) { %>
+				<% var groupImg = cloudinary.url(group.bookImg) %>
+				<div data-url="/groups/<%= group.id %>" class="profile-group-card card clearfix">
+					<img src="<%= groupImg %>" width="50px" />
+					<p class="myGroups-card-title card-title"><%= group.name %></p>
+					<p>Topic: <%= group.topic %></p>
+				</div>
+			<% }); %>
+		</aside>
+	</section>
+</main>

@@ -1,16 +1,38 @@
 
-<form id="nav-search-groups-form" method="GET" action="/groups">
-  <input type="text" name="searchTerm" />
-  <input class="btn-large" type="submit" value="Search Clubs">
-</form>
+<main class="groups-index-page container results-container">
 
-<% if (groups.length) { %>
-	<% groups.forEach(function(group){ %>
-		<a href="groups/<%= group.id %>">
-			<h1><%= group.name %></h1>
-			<h3><%= group.topic %></h3>
-		</a>
-	<% }); %>
-<% } else { %>
-	<h3>Your search did not return any results</h3>
-<% } %>
+	<section class="results-top">
+		<div class="showing-results">
+			<h5>Showing results for <em><%= searchTerm %></em></h5>
+		</div>
+
+		<div class="new-search-container">
+			<h5>Search Groups</h5>
+			<form id="nav-search-groups-form" method="GET" action="/groups">
+			  <input type="text" name="searchTerm" placeholder="Search by topic" />
+			  <input class="btn-large" type="submit" value="Search Clubs">
+			</form>
+		</div>
+	</section>
+
+	<section class="groups-results">
+		<% if (groups.length) { %>
+				<div class="row groups-results-row">
+				<% groups.forEach(function(group, i){ %>
+					<div class="col m6 l4 card groups-results-card">
+						<div class=card-content>
+							<h5 class="card-title"><%= group.name %></h5>
+							<h6>Topic: <em><%= group.topic %></em></h6>
+							<p>Admin: <em><%= group.admin %></em></p>
+							<a class="btn-large" href="groups/<%= group.id%>">Go to Group Page</a>
+						</div>
+					</div>
+				<% }); %>
+			</div>
+		<% } else { %>
+			<h5>Your search did not return any clubs</h5>
+		<% } %>
+	</section>
+
+</main>
+

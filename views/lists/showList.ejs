@@ -5,26 +5,33 @@
 		<div class="row list-page-row">
 			<% list.books.forEach(function(book, i){ %>
 				<article class="list-page-book-col col l3 s4">
-					<img src="<%= book.imgUrl %>">
-					<h6><%= book.title %></h6>
-					<p><em><%= book.author %></em></p>
 
-					<a class="btn-small start-spec-group-btn" href="/groups/<%= book.id %>/new">Start a Group</a>
+					<div class="list-page-book-cover">
+						<a href="/books/<%= book.id %>">
+							<img src="<%= book.imgUrl %>">
+						</a>
+					</div>
 
-					<form id="nav-search-groups-form" method="GET" action="/groups">
-					  <input hidden type="text" name="searchTerm" value="<%= book.title %>" />
-					  <input class="btn-small" type="submit" value="Search Clubs">
-					</form>
+					<div class="list-page-book-info">
+						<h6><%= book.title %></h6>
+						<p><em><%= book.author %></em></p>
+					</div>
 
-					<a class="btn-small delete-book-btn" data-id="<%= list.id %>" href="/books/<%= book.id %>">Remove From List</a>
+					<div class="list-page-nav">
+						<form id="nav-search-groups-form" method="GET" action="/groups">
+						  <input hidden type="text" name="searchTerm" value="<%= book.title %>" />
+						  <input class="btn-small white" type="submit" value="Search Clubs">
+						</form>
+
+						<% if (list.userId === user.id) { %>
+							<a class="btn-small white start-spec-group-btn" href="/groups/<%= book.id %>/new">Start a Club</a>
+
+							<a class="btn-small delete-book-btn" data-id="<%= list.id %>" href="/books/<%= book.id %>">Remove From List</a>
+						<% } %>
+					</div>
+
 				</article>
 			<% }); %>
 		</div>
 	</section>
 </main>
-
-<% if (bookCounter < 4) { -%>
-	
-<% } else { -%>
-	
-<% } -%>

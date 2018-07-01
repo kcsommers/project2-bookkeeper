@@ -51,6 +51,7 @@ module.exports = (sequelize, DataTypes) => {
     models.user.hasMany(models.quote);
     models.user.hasMany(models.note);
     models.user.hasMany(models.post);
+    models.user.hasMany(models.book);
     models.user.belongsToMany(models.group, {through: 'groupsUsers'});
   };
 

@@ -1,7 +1,8 @@
 <div class="home-page-background">
 	<div class="container home-page-container">
-		<h5>Search books by title, author or isbn</h5>
-		<form id="book-search-form" method="POST" action="/api">
+		<h5>Find fellow readers!</h5>
+		<p><em>Enter a title to find out who else is reading the books on your lists</em></p>
+		<form required id="user-search-form" method="POST" action="/user">
 			<input required type="text" name="searchTerm" />
 			<input class="btn-large" type="submit" value="Search" />
 		</form>

@@ -8,14 +8,8 @@
 			
 		</div>
 
-		<div class="profile-edit">
-			<div class="profile-edit">
-				<a class="modal-trigger" href="#edit-profile-modal"><i class="fa fa-edit"></i>Edit Profile</a>
-			</div>
-		</div>
-
 		<div class="profile-search">
-			<h5>Find books</h5>
+			<h6>Find books</h6>
 			<form id="search-form" method="POST" action="/api">
 				<input type="text" name="searchTerm" placeholder="Title, author or isbn" />
 				<input class="btn-large" type="submit" value="Search" />
@@ -26,6 +20,9 @@
 		<div class="profile-info">
 			<h4><%= user.name %></h4>
 			<p><%= user.location %></p>
+			<div class="profile-edit">
+				<a class="modal-trigger" href="#edit-profile-modal"><i class="fa fa-edit"></i>Edit Profile</a>
+			</div>
 		</div>
 
 		<div class="profile-nav-container">
@@ -33,7 +30,7 @@
 				<div class="nav-wrapper">
 					<ul>
 						<li><a class="modal-trigger" href="#new-list-modal">Add List</a></li>
-						<li><a href="#">Find Friends</a></li>
+						<li><a href="/user/search">Find Friends</a></li>
 						<li><a href="/groups">Find Clubs</a></li>
 					</ul>
 				</div>
@@ -47,15 +44,22 @@
 
 				<div data-url="/lists/<%= list.id %>" class="profile-list-card card">
 					<i id="<%= i %>"class="delete-modal-trigger fa fa-trash-alt"></i>
-					<p class="card-title profile-list-card-title"><%= list.name %></p>
+					<h6 class="card-title profile-list-card-title"><%= list.name %></h6>
 
 					<div class="list-books row">
 						<% list.books.forEach(function(book) { %>
-							<div class="profile-book-container col m6 l3">
-								<a href="/books/<%= book.id %>">
-									<img src="<%= book.imgUrl %>" />
+							<div class="profile-book-col col m6 l3">
+
+								<div class="profile-page-book-cover">
+									<a href="/books/<%= book.id %>">
+										<img src="<%= book.imgUrl %>" />
+									</a>
+								</div>
+
+								<div class="profile-page-book-info">
 									<p><%= book.title %></p>
-								</a>
+								</div>
+
 							</div>
 						<% }); %>
 					</div>
@@ -101,7 +105,6 @@
 	<h5>Edit Profile</h5>
 	<form class="update-user-form" enctype="multipart/form-data" method="POST" action="/user/<%= user.id %>/update">
 		<input type="text" name="name" value="<%= user.name %>" />
-		<input type="email" name="email" value="<%= user.email %>" />
 		<input type="text" name="location" value="<%= user.location %>" />
 		<img src="<%= imgUrl %>" width="100px" /><input type="file" name="userPic" />
 		<input type="submit" class="btn-large modal-close" />

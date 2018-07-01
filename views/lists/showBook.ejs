@@ -1,33 +1,51 @@
 <% var bannerUrl = cloudinary.url(book.banner) %>
 <main class="show-book-page">
-	
-	<div class="book-cover">
-		<img src="<%= book.imgUrl %>" />
-	</div>
 
 	<section style="background-image: url(<%= bannerUrl %>)" class="book-banner">
-		
+		<% if (book.userId === user.id) { %>
+			<a class="modal-trigger edit-trigger" href="#update-book-banner-modal"><i class="fa fa-edit"></i>Update cover photo</a>
+		<% } %>
+		<div class="book-cover">
+			<img src="<%= book.imgUrl %>" />
+		</div>
 	</section>
 
 	<section class="book-info">
 		<h3><%= book.title %></h3>
 		<h5><em><%= book.author %></em></h5>
 		<p><%= book.description %><br />
-		<a class="modal-trigger edit-description-modal-trigger" href="#edit-description-modal"><i class="fa fa-edit"></i>Edit Description</a></p>
+
+		<% if (book.userId === user.id) { %>
+			<a class="modal-trigger edit-description-modal-trigger" href="#edit-description-modal"><i class="fa fa-edit"></i>Edit Description</a></p>
+
+			<div class="book-info-btns">
+				<form method="GET" action="/groups">
+				  <input hidden type="text" name="searchTerm" value="<%= book.title %>" />
+				  <input class="btn-small white" type="submit" value="Search Clubs">
+				</form>
+
+				<a class="btn-small white start-spec-group-btn" href="/groups/<%= book.id %>/new">Start a Club</a>
+			</div>
+		<% } %>
+
 	</section>
 
 	<section class="book-nav">
-		<div class="book-nav-container">
-			<nav class="book-navbar">
-				<div class="nav-wrapper right">
-					<ul>
-						<li><a class="modal-trigger" href="#new-quote-modal">Add Quote</a></li>
-						<li><a href="#new-note-form">Add Note</a></li>
-						<li><a href="/lists/<%= list[0].id %>">Back to List</a></li>
-					</ul>
-				</div>
-			</nav>
-		</div>
+		<% if (book.userId === user.id) { %>
+			<div class="book-nav-container">
+				<nav class="book-navbar">
+					<div class="nav-wrapper right">
+						<ul>
+							<li><a class="modal-trigger" href="#new-quote-modal">Add Quote</a></li>
+							<li><a href="#new-note-form">Add Note</a></li>
+							<li><a href="/lists/<%= list[0].id %>">Back to List</a></li>
+						</ul>
+					</div>
+				</nav>
+			</div>
+		<% } else { %>
+				<a style="color: white;" class="btn-large" href="/lists/<%= list[0].id %>">Back to List</a>
+		<% } %>
 	</section>
 
 	<section class="book-quotes">
@@ -45,16 +63,19 @@
 		<h5>Notes</h5>
 		<div class="card notes-card">
 			<% notes.forEach(function(note) { %>
+				<small>added <%= moment(note.createdAt).fromNow() %></small>
 				<p><%= note.content %></p>
 			<% }); %>
 
-			<form id="new-note-form" method="POST" action="/notes">
-				<label for="content">Add Note
-					<textarea name="content"></textarea>
-				</label>
-				<input hidden type="text" name="bookId" value="<%= book.id %>" />
-				<input class="btn-large" type="submit" value="Submit" />
-			</form>
+			<% if (book.userId === user.id) { %>
+				<form id="new-note-form" method="POST" action="/notes">
+					<label for="content">Add Note
+						<textarea name="content"></textarea>
+					</label>
+					<input hidden type="text" name="bookId" value="<%= book.id %>" />
+					<input class="btn-large" type="submit" value="Submit" />
+				</form>
+			<% } %>
 
 		</div>
 	</section>
@@ -62,7 +83,7 @@
 
 <div id="new-quote-modal" class="modal">
 	<div class="modal-content">
-		<h5>Add a new list</h5>
+		<h5>Add a quote</h5>
 		<form id="new-quote-form" method="POST" action="/quotes" />
 			<label for="content">Quote:
 				<input type="text" name="content" />
@@ -79,7 +100,7 @@
 <div id="edit-description-modal" class="modal">
 	<div class="modal-content">
 		<h5>Edit Book Description</h5>
-		<form id="edit-description-form" method="PUT" action="/books/edit" />
+		<form id="edit-description-form" method="PUT" action="/books/update" />
 			<label for="content">Content
 				<textarea name="content"><%= book.description %></textarea>
 			</label>
@@ -87,5 +108,13 @@
 			<input class="btn-large modal-close" type="submit" value="Submit" />
 		</form>
 	</div>
+</div>
+
+<div id="update-book-banner-modal" class="modal">
+	<h5>Update Cover Photo</h5>
+	<form class="update-group-form" enctype="multipart/form-data" method="POST" action="/books/<%= book.id %>/update">
+		<img src="<%= bannerUrl %>" width="300px" /><input type="file" name="groupPic" />
+		<input type="submit" class="btn-large modal-close" />
+	</form>
 </div>
 

@@ -4,22 +4,31 @@ var request = require('request');
 var cloudinary = require('cloudinary');
 var multer = require('multer');
 var upload = multer({dest: '../uploads/'});
+var moment = require('moment');
 var db = require('../models');
 
 // GET /groups - show all groups
 router.get('/', function(req, res) {
 	// if there is a search term
-	console.log('###', req.query.searchTerm)
 	if(req.query.searchTerm) {
 		db.group.findAll({
-			where: {topic: req.query.searchTerm}
+			where: {topic: req.query.searchTerm},
+			include: [db.book]
 		}).then(function(groups) {
-			res.render('groups/groupsIndex', {groups: groups, user: req.user});
+			res.render('groups/groupsIndex', {
+				groups: groups, 
+				user: req.user,
+				searchTerm: req.query.searchTerm
+			});
 		})
 	}
 	else {
 		db.group.findAll().then(function(groups) {
-			res.render('groups/groupsIndex', {groups: groups, user: req.user});
+			res.render('groups/groupsIndex', {
+				groups: groups, 
+				user: req.user,
+				searchTerm: req.query.searchTerm
+			});
 		});
 	}
 });
@@ -36,6 +45,7 @@ router.get('/:id', function(req, res) {
 					posts: posts,
 					user: req.user,
 					cloudinary: cloudinary,
+					moment: moment,
 					msg: null
 				});
 			});
@@ -61,6 +71,7 @@ router.post('/join', function(req, res) {
 						user: req.user,
 						posts: posts,
 						cloudinary: cloudinary,
+						moment: moment,
 						msg: (created) ? 'You have joined this group!' : 'You have already joined this group!'
 					});
 				});
@@ -101,6 +112,35 @@ router.post('/', function(req, res) {
 			});
 		});
 	});
-});		
+});	
+
+// POST /groups/:id/update - edit group
+router.post('/:id/update', upload.single('groupPic'), function(req, res) {
+	let imgUrl;
+	if(req.file) {
+		cloudinary.uploader.upload(req.file.path, function(result) {
+			imgUrl = result.public_id;
+			db.group.update({
+				name: req.body.name,
+				description: req.body.description,
+				imgUrl: imgUrl
+			}, {
+				where: {id: req.params.id}
+			}).then(function(data) {
+				res.redirect('/groups/' + req.params.id);
+			});
+		});
+	}
+	else {
+		db.group.update({
+			name: req.body.name,
+			description: req.body.description
+		}, {
+			where: {id: req.user.id}
+		}).then(function(data) {
+			res.redirect('/groups/' + req.params.id);
+		});
+	}
+});	
 
 module.exports = router;

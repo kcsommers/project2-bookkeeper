@@ -1,0 +1,38 @@
+<main class="container results-container showUsers-page-container">
+	<section class="results-top">
+		<div class="showing-results">
+			<% if (books.length) { -%>
+				<h5><em>These users are also reading <%= searchTerm %></em></h5>
+			<% } else { -%>
+				<h5>Sorry, it seems no one else is reading <em><%= searchTerm %></em></h5>
+			<% } -%>
+		</div>
+
+		<div class="new-search-container">
+			<h5>New Search</h5>
+			<form required id="user-search-form" method="POST" action="/user">
+				<input required type="text" name="searchTerm" />
+				<input class="btn-large" type="submit" value="Search" />
+			</form>
+		</div>
+	</section>
+
+	<section class="results-bottom">
+
+		<% books.forEach(function(book, i){ %>
+			<% var imgUrl = cloudinary.url(book.user.imgUrl) %>
+			<a href="/user/<%= book.user.id %>">
+				<article class="results-user-container card">
+					<div class="results-user-pic" style="background-image: url(<%= imgUrl %>)">
+					</div>
+
+					<div class="results-user-info">
+						<h5><%= book.user.name %></h5>
+						<h6><em><%= book.user.location %></em></h6>
+					</div>
+				</article>
+			</a>
+		<% }); %>
+		
+	</section>
+</main>

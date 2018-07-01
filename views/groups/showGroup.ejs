@@ -1,11 +1,13 @@
 <% var imgUrl = cloudinary.url(group.imgUrl) %>
 
 <main class="page-background group-page-background">
-	<section class="container group-container page-container">	
+	<section class="container group-container page-container">
+
 		<section style="background-image: url(<%= imgUrl %>)" class="group-banner">
 			<div class="group-book">
 				<img class="group-book-cover" src="<%= group.bookImg %>" />
 			</div>
+			<a class="modal-trigger edit-trigger" href="#edit-group-banner-modal"><i class="fa fa-edit"></i>Update group</a>
 		</section>
 
 		<section class="group-details">
@@ -21,6 +23,7 @@
 			<h5>Recent posts</h5>
 			<% posts.forEach(function(post){ %>
 				<div class="post-container card">
+					<small>added <%= moment(post.createdAt).fromNow() %></small>
 					<p><%= post.user.name %></p>
 					<hr />
 					<p class="post-content"><%= post.content %></p>
@@ -39,23 +42,38 @@
 
 		<section class="group-members">
 			<h5>Members</h5>
-			<% users.forEach(function(user) { %>
-				<% let memberImg = cloudinary.url(user.imgUrl) %>
-				<p><%= user.name %></p>
-				<img src="<%= memberImg %>" width="75px" />
-			<% }); %>
-			<% if (currUser) { -%>
-				<form id="join-group-form" method="POST" action="/groups/join">
-					<input hidden type="text" name="group" value="<%= group.id %>">
-					<input hidden type="text" name="user" value="<%= currUser.id %>">
-					<input class="btn-large" type="submit" value="Join Group">
-				</form>
-				<% if (msg) { %>
-					<p class="already-joined-msg"><%= msg %></p>
+			<div class="row">
+				<% users.forEach(function(user) { %>
+					<div class="col s4">
+						<% let memberImg = cloudinary.url(user.imgUrl) %>
+						<div style="background-image: url(<%= memberImg %>)" class="member-photo">
+						</div>
+						<p><%= user.name %></p>
+					</div>
+				<% }); %>
+			</div>
+				<% if (currUser) { -%>
+					<form id="join-group-form" method="POST" action="/groups/join">
+						<input hidden type="text" name="group" value="<%= group.id %>">
+						<input hidden type="text" name="user" value="<%= currUser.id %>">
+						<input class="btn-large" type="submit" value="Join Group">
+					</form>
+					<% if (msg) { %>
+						<p class="already-joined-msg"><%= msg %></p>
+					<% } %>
+				<% } else { %>
+					<h4>Login or create an account to join this group!</h4>
 				<% } %>
-			<% } else { %>
-				<h4>Login or create an account to join this group!</h4>
-			<% } %>
 		</section>
 	</section>
 </main>
+
+<div id="edit-group-banner-modal" class="modal">
+	<h5>Update Group</h5>
+	<form class="update-group-form" enctype="multipart/form-data" method="POST" action="/groups/<%= group.id %>/update">
+		<input type="text" name="name" value="<%= group.name %>" />
+		<input type="text" name="description" value="<%= group.description %>" />
+		<img src="<%= imgUrl %>" width="200px" /><input type="file" name="groupPic" />
+		<input type="submit" class="btn-large modal-close" />
+	</form>
+</div>

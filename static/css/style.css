@@ -6,8 +6,6 @@
 
 html, body {height: 100%;}
 
-.flex {display: flex;}
-
 .page-background {
 	background-image: url('/img/page-background.jpg');
 	background-size: cover;
@@ -22,6 +20,18 @@ html, body {height: 100%;}
 	border-radius: 5px;
 	width: 80%;
 	border: 3px solid #fff;
+}
+
+.edit-trigger {
+	background-color: #fff;
+	padding: 0.4em 0.5em 0.5em 0.5em;
+	border-radius: 10px;
+	color: #1d4b44;
+	font-size: 0.8em;
+}
+
+.flash {
+	color: #dc2101;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -59,9 +69,9 @@ input[type=submit] {
     display: table;
 }
 
-/**************************
+/******************************************************
 	Materialize 
-*******************/
+*******************************************************/
 
 .row {
 	margin: 0;
@@ -75,13 +85,9 @@ input[type=submit] {
 	padding: 1em;
 }
 
-.card-title {
-	font-size: 30px !important;
-}
-
-/****************** 
+/**************************************************
 	Layout.ejs 
-*******************/
+***************************************************/
 
 .main-nav {
 	padding: 0 5em;
@@ -118,9 +124,9 @@ footer {
 	align-items: center;
 }
 
-/****************** 
+/*************************************************** 
 	Login.ejs 
-*******************/
+****************************************************/
 
 .login-container, .signup-container {
 	min-height: calc(100% - 250px);
@@ -130,25 +136,37 @@ footer {
 	padding: 2em 0;
 }
 
-/****************** 
+/**************************************************
 	index.ejs 
-*******************/
+***************************************************/
 
-.home-page-container {
+.home-page-background {
+	min-height: calc(100% - 250px);
+	background-image: url(/img/home-background.jpg);
+	background-size: cover;
+	display: flex;
 	text-align: center;
-	height: calc(100% - 214px);
 	flex-direction: column;
 	justify-content: center;
+	border-top: 1px solid #fff;
+	border-bottom: 1px solid #fff;
 }
 
-/****************************** 
+.home-page-container {
+	background-color: rgba(255, 255, 255, 0.9);
+	padding: 3em;
+	border-radius: 10px;
+}
+
+/********************************************************
 		searchResults.ejs 
-*******************/
+*********************************************************/
 
 .results-container {
 	display: grid;
 	grid-template-areas: "results-top" "results-bottom";
 	grid-template-rows: 15em 1fr;
+	min-height: calc(100vh - 250px);
 }
 
 .results-top {
@@ -198,51 +216,47 @@ footer {
 }
 
 
-/****************************** 
+/*******************************************************
 		user/profile.ejs 
-*******************/
+********************************************************/
 
 .profile-container {
 	display: grid;
-	grid-template-areas: "profile-pic profile-edit profile-search profile-search"
+	grid-template-areas: "profile-pic profile-pic profile-search profile-search"
 						 "profile-info profile-nav profile-nav profile-nav"
 						 "profile-lists profile-lists profile-lists profile-groups";
-	grid-template-columns: 15em 9em 1fr 1fr;
-	grid-template-rows: 13.3em 7em 1fr;
+	grid-template-columns: auto 9em 1fr 1fr;
+	grid-template-rows: 17em auto auto;
 	padding: 2em 0;
 }
 
 .profile-pic {
 	grid-area: profile-pic;
-	width: 200px;
-	height: 200px;
 	background-size: cover;
 	background-position: center center;
 	border: 3px solid #fff;
 	border-radius: 10px;
 	margin-left: 2em;
-}
-
-.profile-container:hover .profile-edit {
-	opacity: 0.9;
+	max-width: 225px;
+	min-width: 225px;
 }
 
 .profile-edit {
 	grid-area: profile-edit;
-	opacity: 0;
-	transition: .2s ease;
-	padding: 0 0.5em;
 }
 
 .profile-search {
 	grid-area: profile-search;
 	text-align: right;
 	padding: 0 3em;
+	position: relative;
 }
 
 .profile-info {
 	grid-area: profile-info;
-	padding: 0 2em;
+	overflow-wrap: break-word;
+	max-width: 300px;
+	padding: 1em 2em;
 }
 
 .profile-nav-container {
@@ -252,12 +266,12 @@ footer {
 
 .profile-lists-container {
 	grid-area: profile-lists;
-	padding: 1em;
+	padding: 1em 1em 1em 2em;
 }
 
 .profile-groups {
 	grid-area: profile-groups;
-	padding: 1em;
+	padding: 1em 2em 1em 1em;
 	text-align: right;
 }
 
@@ -272,7 +286,7 @@ footer {
 }
 
 .profile-nav a {
-	color: #888;
+	color: #1d4b44;
 }
 
 .profile-nav a:hover {
@@ -283,6 +297,36 @@ footer {
 	cursor: pointer;
 	position: relative;
 	padding: 2em 2em;
+	white-space: nowrap;
+}
+
+.profile-page-book-col {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.profile-page-book-info {
+	text-align: center;
+	width: 100%;
+	height: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	line-height: 1.5em;
+}
+
+.profile-page-book-cover {
+	width: 100%;
+	text-align: center;
+	height: 200px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	margin: 3em 0 1em 0;
 }
 
 .profile-list-card:hover .delete-modal-trigger {
@@ -310,17 +354,9 @@ footer {
 	transition: all 0.2s ease;
 }
 
-.profile-book-container {
-	margin: 1em 0;
-	text-align: center;
-}
-
-.profile-book-container p{
-	line-height: 1em;
-}
-
 .profile-group-card {
 	cursor: pointer;
+	line-height: 1.7em;
 }
 
 .profile-group-card img {
@@ -328,11 +364,15 @@ footer {
 	margin-left: 1em;
 }
 
+.delete-list-btn {
+	margin-top: 1em;
+}
 
 
-/****************************** 
+
+/*******************************************************
 		showGroup.ejs 
-*******************/
+********************************************************/
 
 .group-container {
 	display: grid;
@@ -348,10 +388,16 @@ footer {
 	background-size: cover;
 	background-position: center center;
 	padding: 3em;
+	border-bottom: 2px solid #888;
+}
+
+.group-banner .edit-trigger {
+	margin-left: 1.5em;
 }
 
 .group-book-cover {
 	border: 3px solid #fff;
+	margin-bottom: 0.5em;
 }
 
 .group-details {
@@ -390,34 +436,160 @@ footer {
 
 .group-members {
 	grid-area: group-members;
-	text-align: right;
+	text-align: center;
 	border-left: 2px solid #999;
-	padding: 3em 3em;
+	padding: 3em 1em;
+}
+
+.group-members p {
+	line-height: 1em;
+	overflow-wrap: break-word;
+}
+
+.group-members .row {
+	margin-bottom: 2em;
+}
+
+.group-members .col {
+	margin-top: 2em;
+}
+
+.member-photo {
+	width: 75px;
+	height: 75px;
+	background-size: cover;
+	background-position: center center;
+	border-radius: 100%;
+	display: inline-block;
 }
 
 .already-joined-msg {
 	color: red;
 }
 
-/****************************** 
-		showList.ejs 
-*******************/
+/******************************************************
+		groups/groupsIndex.ejs 
+*******************************************************/
 
-.list-page-book-col {
+.groups-results-card {
 	text-align: center;
 }
 
-.list-page-book-col img{
-	width: 65%;
+
+/*******************************************************
+		showList.ejs 
+********************************************************/
+
+.list-page-background {
+	min-height: calc(100vh - 250px);
+}
+
+.list-page-container {
+	padding: 2em 0;
+}
+
+.list-page-container h5 {
+	text-align: center;
+}
+
+.list-page-book-col {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+}
+
+.list-page-book-cover {
+	width: 100%;
+	text-align: center;
+	height: 250px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	margin: 3em 0 1em 0;
+}
+
+.list-page-book-cover img {
+	width: 150px;
+}
+
+.list-page-book-info {
+	text-align: center;
+	width: 100%;
+	height: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+
+.list-page-nav {
+	display: flex;
+	flex-direction: column;
+}
+
+.list-page-nav a:, .list-page-nav input[type=submit] {
+	color: #888;
+	background-color: #fff;
+}
+
+.start-spec-group-btn:hover, .search-spec-group-btn:hover {
+	
+}
+
+.list-page-nav a, .list-page-nav input[type=submit] {
+	color: #888;
+	background-color: #fff;
+}
+
+.list-page-nav a:nth-child(2) {
+	margin: 0.5em 0;
+}
+
+.delete-book-btn:hover {
+	color: #fff;
+	background-color: #dc2101;
 }
 
 .list-page-book-col .btn-small {
 	width: 170px;
 }
 
-/****************************** 
+/*******************************************************
+		user/showUsers.ejs 
+********************************************************/
+
+.showUsers-page-container .results-bottom {
+	margin-top: 0;
+}
+
+.results-user-container {
+	display: flex;
+	padding: 2em;
+	align-items: center;
+}
+
+.results-user-container h6{
+	margin-top: 0.5em;
+}
+
+.results-user-info {
+	padding-left: 3em;
+}
+
+.results-user-pic {
+	width: 200px;
+	height: 200px;
+	background-size: cover;
+	background-position: center center;
+	border-radius: 100%;
+}
+
+
+/********************************************************
 		showBook.ejs 
-*******************/
+*********************************************************/
 
 .show-book-page {
 	display: grid;
@@ -427,13 +599,12 @@ footer {
 						 "book-notes book-notes";
 	grid-template-columns: 1fr 30em;
 	grid-template-rows: 24em auto auto auto;
-	position: relative;
 }
 
 .book-cover {
 	position: absolute;
 	text-align: center;
-	top: 10em;
+	bottom: -3em;
 	left: 50%;
 	transform: translateX(-50%);
 }
@@ -448,25 +619,35 @@ footer {
 	grid-area: book-banner;
 	background-size: cover;
 	background-position: center center;
+	position: relative
+}
+
+.book-banner .edit-trigger {
+	position: relative;
+	top: 1em;
+	left: 1em;
 }
 
 .book-info {
 	grid-area: book-info;
-	padding: 3em 3em 3em 10em;
-}
-
-.book-info:hover .edit-description-modal-trigger {
-	opacity: 1;
+	padding: 4em 3em 3em 10em;
 }
 
 .book-info h5 {
 	padding: 0.5em 0;
 }
 
+.book-info-btns form {
+	display: inline-block;
+}
+
+.book-info-btns a, .book-info-btns input[type=submit] {
+	color: #888;
+	margin-top: 1em;
+}
+
 .edit-description-modal-trigger {
 	font-size: 0.8em;
-	opacity: 0;
-	transition: all 0.2s ease;
 }
 
 .book-nav {
@@ -502,16 +683,14 @@ footer {
 }
 
 .quotes-card, .notes-card {
-	padding: 3em;
+	padding: 3em 5em;
 }
 
-.quotes-card p:not(:nth-last-child(2)):after, .notes-card p:after {
-	content: '';
-	background-color: #888;
+.notes-card small {
 	display: block;
-	height: 2px;
-	border-radius: 20px;
-	margin: 1em 0;
+	border-top: 1px solid #1d4b44;
+	padding: 0.5em 0;
+	margin: 4em 0 0.5em 0;
 }
 
 .new-quote-modal-trigger {
@@ -527,6 +706,7 @@ footer {
 
 #new-note-form textarea {
 	display: block;
+	font-size: 1.4em;
 }
 
 

@@ -26,7 +26,7 @@ router.get('/profile', isLoggedIn, function(req, res) {
 	});
 });
 
-// GET /user/:id/update - get update user page
+// GET /user/:id/update - gets update user page
 router.get('/:id/update', function(req, res) {
 	res.render('user/updateUser', {user: req.user, cloudinary: cloudinary});
 });
@@ -39,27 +39,66 @@ router.post('/:id/update', upload.single('userPic'), function(req, res) {
 			imgUrl = result.public_id;
 			db.user.update({
 				name: req.body.name,
-				email: req.body.email,
 				location: req.body.location,
 				imgUrl: imgUrl
 			}, {
 				where: {id: req.user.id}
 			}).then(function(data) {
-				res.redirect('/suser/profile');
+				res.redirect('/user/profile');
 			});
 		});
 	}
 	else {
 		db.user.update({
 			name: req.body.name,
-			email: req.body.email,
 			location: req.body.location
 		}, {
 			where: {id: req.user.id}
 		}).then(function(data) {
 			res.redirect('/user/profile');
-		})
+		});
 	}
 });
+
+// GET /user - gets the search for friends page
+router.get('/search', function(req, res) {
+	res.render('user/findUsers', {user: req.user, cloudinary: cloudinary});
+});
+
+// POST /user - finds users reading the searched book
+router.post('/', function(req, res) {
+	db.book.findAll({
+		where: {title: req.body.searchTerm},
+		include: [db.user]
+	}).then(function(books) {
+		res.render('user/showUsers', {
+			user: req.user, 
+			books: books,
+			searchTerm: req.body.searchTerm,
+			cloudinary: cloudinary
+		});
+	})
+});
+
+// GET /:id/user - gets specific user profile
+router.get('/:id', function(req, res) {
+	db.list.findAll({
+		where: {userId: req.params.id},
+		include: [db.book]
+	}).then(function(lists) {
+		db.user.findById(req.params.id).then(function(user){
+			user.getGroups().then(function(groups) {
+				res.render('user/friendProfile', {
+					user: user, 
+					lists: lists, 
+					groups: groups,
+					cloudinary: cloudinary
+				});
+			});
+		});
+	});
+});
+
+
 
 module.exports = router;

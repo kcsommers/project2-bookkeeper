@@ -11,14 +11,12 @@ var flash = require('connect-flash');
 var port = process.env.PORT || 2000;
 
 var app = express();
-
 app.set('view engine', 'ejs');
 
 app.use(require('morgan')('dev'));
 app.use(bp.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/static'));
 app.use(ejsLayouts);
-
 // this needs to come before you app.use passport
 app.use(session({
 	secret: process.env.SESSION_SECRET,
