@@ -33,7 +33,6 @@ router.post('/', function(req, res) {
 
 // DELETE /lists/:id - delete list and associated notes, quotes, and listsBooks
 router.delete('/:id', function(req, res) {
-
 	db.list.destroy({
 		where: {id: req.params.id}
 	});
