@@ -4,7 +4,7 @@ var request = require('request');
 var async = require('async');
 var cloudinary = require('cloudinary');
 var multer = require('multer');
-var upload = multer({dest: '../uploads/'});
+var upload = multer({dest: './uploads/'});
 var moment = require('moment');
 var db = require('../models');
 

@@ -4,7 +4,7 @@ var isLoggedIn = require('../middleware/isLoggedIn');
 var db = require('../models');
 var cloudinary = require('cloudinary');
 var multer = require('multer');
-var upload = multer({dest: '../uploads/'});
+var upload = multer({dest: './uploads/'});
 
 
 // GET /user - gets the search for friends page
