@@ -54,7 +54,7 @@ app.use('/notes', require('./controllers/notes'));
 app.use('/groups', require('./controllers/groups'));
 app.use('/posts', require('./controllers/posts'));
 
-var server = app.listen(port, function() {
+var server = app.listen(port || 3000, function() {
 	rowdy.print();
 	console.log('running on port: ' + port);
 });
