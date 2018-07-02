@@ -24,11 +24,23 @@ $(document).ready(function() {
 		$('#find-clubs-form-' + formId).trigger('submit');
 	});
 
+	// Find clubs trigger submit
+	$('#find-clubs-trigger').click(function(e) {
+		e.preventDefault();
+		$('#find-clubs-form').trigger('submit');
+	});
+
 	// Find friends trigger submit
 	$('.find-friends-trigger').click(function(e) {
 		e.preventDefault();
 		let formId = $(this).attr('href');
 		$('#find-friends-form-' + formId).trigger('submit');
+	});
+
+	// Find friends trigger submit
+	$('#find-friends-trigger').click(function(e) {
+		e.preventDefault();
+		$('#find-friends-form').trigger('submit');
 	});
 
 	// delete lists
@@ -52,7 +64,6 @@ $(document).ready(function() {
 
 	//update book description
 	$('#edit-description-form').submit(function(e) {
-		console.log('submit')
 		e.preventDefault();
 		let url = $(this).attr('action');
 		let newData = $(this).serialize();
@@ -77,6 +88,33 @@ $(document).ready(function() {
 			data: {listId: listId}
 		}).done(function(data) {
 			window.location = '/lists/' + listId;
+		});
+	});
+
+	// delete quote
+	$('.delete-quote-btn').click(function(e) {
+		e.preventDefault();
+		console.log('#####', $(this).attr('data-id'))
+		let url = $(this).attr('href');
+		let bookId = $(this).attr('data-id');
+		$.ajax({
+			method: 'DELETE',
+			url: url
+		}).done(function(data) {
+			window.location = '/books/' + bookId;
+		});
+	});
+
+	// delete note
+	$('.delete-note-btn').click(function(e) {
+		e.preventDefault();
+		let url = $(this).attr('href');
+		let bookId = $(this).attr('data-id');
+		$.ajax({
+			method: 'DELETE',
+			url: url
+		}).done(function(data) {
+			window.location = '/books/' + bookId;
 		});
 	});
 });

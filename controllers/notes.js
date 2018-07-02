@@ -23,4 +23,13 @@ router.post('/', function(req, res) {
 	});
 });
 
+// DELETE /notes/:id
+router.delete('/:id', function(req, res) {
+	db.note.destroy({
+		where: {id: req.params.id}
+	}).then(function(data) {
+		res.sendStatus(200);
+	});
+});
+
 module.exports = router;

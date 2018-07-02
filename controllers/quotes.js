@@ -24,4 +24,13 @@ router.post('/', function(req, res) {
 	});
 });
 
+// DELETE /quotes/:id
+router.delete('/:id', function(req, res) {
+	db.quote.destroy({
+		where: {id: req.params.id}
+	}).then(function(data) {
+		res.sendStatus(200);
+	});
+});
+
 module.exports = router;

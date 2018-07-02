@@ -51,18 +51,13 @@ router.delete('/:id', function(req, res) {
 		// if they exist, loop through book Ids to delete the book and its notes and quotes	
 		if(booksArr.length) {
 			booksArr.forEach(function(bookId) {
-
-				db.book.destroy({
-					where: {id: bookId}
-				});
-
+				db.book.destroy({where: {id: bookId}});
 				db.quote.destroy({
 					where: {
 						bookId: bookId,
 						userId: req.user.id
 					}
 				});
-				
 				db.note.destroy({
 					where: {
 						bookId: bookId,
@@ -71,7 +66,6 @@ router.delete('/:id', function(req, res) {
 				}).then(function(data) {
 					res.sendStatus(200);
 				});
-
 			});
 		}
 		else {

@@ -33,14 +33,22 @@ html, body {height: 100%;}
 	left: 50%;
 	top: 7em;
 	transform: translateX(-50%);
-	background-color: rgba(224, 253, 244, 0.9);
 	width: 70%;
 	text-align: center;
 	border-radius: 10px;}
 
 .alert-success {
+	background-color: rgba(224, 253, 244, 1);
 	color: #1d4b44;
 	padding: 1em 0;
+	border-radius: 10px;
+}
+
+.alert-danger {
+	background-color: #ffecec;
+	color: #e66073;
+	padding: 1em 0;
+	border-radius: 10px;
 }
 
 em {color: #888;}
@@ -115,12 +123,15 @@ p {
 
 footer {
 	background-color: #333333;
-	color: #fff;
 	text-align: center;
 	height: 150px;
 	display: flex;
 	justify-content: center;
 	align-items: center;}
+
+footer p {
+	color: #fff;
+}
 
 /*************************************************** 
 	Login/signup/createprofil.ejs 
@@ -193,7 +204,6 @@ footer {
 
 .results-bottom {
 	grid-area: results-bottom;
-	margin-top: -5em;
 }
 
 .showing-results {
@@ -216,6 +226,7 @@ footer {
 
 .book-left {
 	grid-area: book-left;
+	padding-top: 2em;
 }
 
 .book-right {
@@ -425,6 +436,7 @@ footer {
 .group-posts {
 	grid-area: group-posts;
 	padding: 1em 5em;
+	margin-top: 5em;
 }
 
 .post-container {
@@ -490,10 +502,14 @@ footer {
 		groups/groupsIndex.ejs 
 *******************************************************/
 
-.groups-results-card {
-	text-align: center;
+.results-group-container {
+	display: flex;
+	margin: 4em 0;
 }
 
+.results-group-info {
+	padding-left: 3em;
+}
 
 /*******************************************************
 		showList.ejs 
@@ -551,10 +567,6 @@ footer {
 /*******************************************************
 		user/showUsers.ejs 
 ********************************************************/
-
-.showUsers-page-container .results-bottom {
-	margin-top: 0;
-}
 
 .results-user-container {
 	display: flex;
@@ -634,10 +646,6 @@ footer {
 	padding: 4em 3em 3em 10em;
 }
 
-.book-info-btns form {
-	display: inline-block;
-}
-
 .book-info-btns a, .book-info-btns input[type=submit] {
 	color: #888;
 	margin-top: 1em;
@@ -662,6 +670,10 @@ footer {
 	border-bottom: 1px solid #888;
 }
 
+.book-navbar .nav-wrapper {
+	padding: 0;
+}
+
 .book-quotes {
 	grid-area: book-quotes;
 	padding: 0 5em;
@@ -683,7 +695,28 @@ footer {
 	padding: 3em 5em;
 }
 
-.notes-card small {
+.notes-content, .quotes-content {
+	position: relative;
+}
+
+.notes-content p, .quotes-content p {
+	padding-right: 2.2em;
+}
+
+.delete-note-btn, .delete-quote-btn {
+	position: absolute;
+	right: 1em;
+	top: 2.8em;
+	transition: all 0.2s ease;
+	cursor: pointer;
+	color: #333;
+}
+
+.delete-note-btn:hover, .delete-quote-btn:hover{
+	color: #dc2101;
+}
+
+.notes-card small, .quotes-card small {
 	display: block;
 	border-top: 1px solid #1d4b44;
 	padding: 0.5em 0;

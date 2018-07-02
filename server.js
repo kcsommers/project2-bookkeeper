@@ -9,10 +9,11 @@ var cloudinary = require('cloudinary');
 var passport = require('./config/passportConfig');
 var flash = require('connect-flash');
 var port = process.env.PORT || 2000;
+var rowdy = require('rowdy-logger')
 
 var app = express();
 app.set('view engine', 'ejs');
-
+rowdy.begin(app)
 app.use(require('morgan')('dev'));
 app.use(bp.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/static'));
@@ -54,6 +55,7 @@ app.use('/groups', require('./controllers/groups'));
 app.use('/posts', require('./controllers/posts'));
 
 var server = app.listen(port, function() {
+	rowdy.print();
 	console.log('running on port: ' + port);
 });
 

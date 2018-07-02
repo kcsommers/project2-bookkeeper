@@ -90,7 +90,6 @@ router.put('/update', function(req, res) {
 });
 
 
-// NNNNEEEEEEDDDDDDSSSSS FFFFFFIIIIIIXXXXXXIIIIIINNNNNN
 // DELETE /books/:id - remove book listsBooks association
 // if it doesn't exist in any other lists, remove it from books table
 router.delete('/:id', function(req, res) {
@@ -99,35 +98,23 @@ router.delete('/:id', function(req, res) {
 			bookId: req.params.id,
 			listId: req.body.listId
 		}
+	});
+	db.quote.destroy({
+		where: {
+			bookId: req.params.id,
+			userId: req.user.id
+		}
+	});
+	db.note.destroy({
+		where: {
+			bookId: req.params.id,
+			userId: req.user.id
+		}
+	});
+	db.book.destroy({
+		where: {id: req.params.id}
 	}).then(function(data) {
-		db.quote.destroy({
-			where: {
-				bookId: req.params.id,
-				userId: req.user.id
-			}
-		}).then(function(data) {
-			db.note.destroy({
-				where: {
-					bookId: req.params.id,
-					userId: req.user.id
-				}
-			}).then(function(data) {
-				db.listsBooks.find({
-					where: {bookId: req.params.id}
-				}).then(function(book) {
-					if(!book) {
-						db.book.destroy({
-							where: {id: req.params.id}
-						}).then(function(data) {
-							res.sendStatus(200);
-						});
-					}
-					else {
-						res.sendStatus(200);
-					}
-				});
-			});
-		});
+		res.sendStatus(200);
 	});
 });
 
