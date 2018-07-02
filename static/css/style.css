@@ -147,7 +147,7 @@ footer p {
 
 .findUsers-page-background {
 	min-height: calc(100% - 200px);
-	: url("../img/backgrounds/bg2.jpg");
+	background-image: url("https://image.freepik.com/free-photo/book-turning-pages_1150-146.jpg");
 	background-size: cover;
 	display: flex;
 	text-align: center;
@@ -161,7 +161,7 @@ footer p {
 
 .findGroups-page-background {
 	min-height: calc(100% - 200px);
-	background-image: url("../img/backgrounds/bg6.jpg");
+	background-image: url("https://s-i.huffpost.com/gen/1976688/images/o-BOOK-COFFEE-facebook.jpg");
 	background-size: cover;
 	display: flex;
 	text-align: center;
@@ -205,7 +205,7 @@ footer p {
 
 .home-page-background {
 	min-height: calc(100% - 200px);
-	background-image: url("../img/backgrounds/bg4.jpg");
+	background-image: url("https://3.bp.blogspot.com/-6EFmOi6dbv8/V3ORuvdiX8I/AAAAAAAADaU/NUSmBebnQV0sxmmbZYcrlZ8VdZAfsVsrwCLcB/s1600/shutterstock_105363872.jpg");
 	background-size: cover;
 	display: flex;
 	text-align: center;
