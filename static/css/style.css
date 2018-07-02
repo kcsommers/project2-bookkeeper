@@ -97,6 +97,10 @@ p {
 
 .col {padding: 0 !important;}
 
+.btn-large {
+	background-color: #c32f47;
+}
+
 /**************************************************
 	Layout.ejs 
 ***************************************************/
@@ -109,6 +113,7 @@ p {
 	display: flex;
 	align-items: center;
 	padding: 0 5em;
+	border-bottom: 1px solid #fff;
 }
 
 .logo-container, .main-menu {flex: 1;}
@@ -119,26 +124,58 @@ p {
 
 .logo-container img {
 	width: 70px;
-	margin-right: 0.5em;}
+	margin-right: 0.2em;
+	position: relative;
+	top: 3px;}
 
 footer {
 	background-color: #333333;
 	text-align: center;
-	height: 150px;
+	height: 100px;
 	display: flex;
 	justify-content: center;
-	align-items: center;}
+	align-items: center;
+	border-top: 1px solid #fff;}
 
 footer p {
 	color: #fff;
 }
 
 /*************************************************** 
+	findUsers.ejs 
+****************************************************/
+
+.findUsers-page-background {
+	min-height: calc(100% - 200px);
+	background-image: url(/img/backgrounds/bg2.jpg);
+	background-size: cover;
+	display: flex;
+	text-align: center;
+	flex-direction: column;
+	justify-content: center;
+}
+
+/*************************************************** 
+	findUsers.ejs 
+****************************************************/
+
+.findGroups-page-background {
+	min-height: calc(100% - 200px);
+	background-image: url(/img/backgrounds/bg6.jpg);
+	background-size: cover;
+	display: flex;
+	text-align: center;
+	flex-direction: column;
+	justify-content: center;
+}
+
+
+/*************************************************** 
 	Login/signup/createprofil.ejs 
 ****************************************************/
 
 .login-container, .signup-container, .create-profile-container{
-	min-height: calc(100% - 250px);
+	min-height: calc(100% - 200px);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -167,15 +204,13 @@ footer p {
 ***************************************************/
 
 .home-page-background {
-	min-height: calc(100% - 250px);
-	background-image: url(/img/home-background.jpg);
+	min-height: calc(100% - 200px);
+	background-image: url(/img/backgrounds/bg4.jpg);
 	background-size: cover;
 	display: flex;
 	text-align: center;
 	flex-direction: column;
 	justify-content: center;
-	border-top: 1px solid #fff;
-	border-bottom: 1px solid #fff;
 }
 
 .home-page-container {
@@ -192,7 +227,7 @@ footer p {
 	display: grid;
 	grid-template-areas: "results-top" "results-bottom";
 	grid-template-rows: 15em 1fr;
-	min-height: calc(100vh - 250px);
+	min-height: calc(100vh - 200px);
 }
 
 .results-top {
@@ -516,7 +551,7 @@ footer p {
 ********************************************************/
 
 .list-page-background {
-	min-height: calc(100vh - 250px);
+	min-height: calc(100vh - 200px);
 }
 
 .list-page-container {

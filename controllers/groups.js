@@ -107,7 +107,7 @@ router.post('/', function(req, res) {
 				description: req.body.description,
 				admin: req.body.admin,
 				topic: req.body.topic,
-				imgUrl: 'group-background2',
+				imgUrl: 'lflbvvr8kjmgae9suzov',
 				bookImg: book.imgUrl
 			}).then(function(group) {
 				book.addGroup(group);

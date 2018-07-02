@@ -111,5 +111,3 @@ Overall I'm pretty happy with this project. I have to admit, at first it didn't 
 ## Acknowledgements
 * This woman and her very helpful explantion of sequelize migrations https://www.youtube.com/watch?v=gwrfXtC-y3k&t=390s
 * Steve, Kyle and all my helpful and supportive classmates
-
-http://www.example.com or <http://www.example.com>

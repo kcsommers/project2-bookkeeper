@@ -47,7 +47,7 @@ router.post('/', function(req, res) {
 			description: req.body.description,
 			imgUrl: req.body.imgSrc,
 			userId: req.user.id,
-			banner: 'group-background2'
+			banner: 'lflbvvr8kjmgae9suzov'
 		}).then(function(book) {
 			list.addBook(book).then(function(book) {
 				res.redirect('user/' + req.user.id);
