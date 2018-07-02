@@ -147,7 +147,7 @@ footer p {
 
 .findUsers-page-background {
 	min-height: calc(100% - 200px);
-	background-image: url("../img/backgrounds/bg2.jpg");
+	: url("../img/backgrounds/bg2.jpg");
 	background-size: cover;
 	display: flex;
 	text-align: center;

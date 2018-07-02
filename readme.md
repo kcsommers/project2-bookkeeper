@@ -107,6 +107,8 @@ Overall I'm pretty happy with this project. I have to admit, at first it didn't 
 * Express
 * Sequelize
 * Postgres
+* Google Fonts
+* Google Books API
 
 ## Acknowledgements
 * This woman and her very helpful explantion of sequelize migrations https://www.youtube.com/watch?v=gwrfXtC-y3k&t=390s
