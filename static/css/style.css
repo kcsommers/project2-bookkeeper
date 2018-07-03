@@ -107,22 +107,19 @@ p {
 
 .main-nav {
 	height: 100px;
-	background-color: #1a4b44;}
-
-.nav-wrapper {
-	display: flex;
-	align-items: center;
-	padding: 0 5em;
+	background-color: #1a4b44;
 	border-bottom: 1px solid #fff;
 }
 
-.logo-container, .main-menu {flex: 1;}
+.nav-wrapper{
+	padding: 1.5em 2em 0 2em;
+}
 
-.logo-container a {
+.brand-logo {
 	font-family: Pacifico;
 	font-size: 2em;}
 
-.logo-container img {
+.brand-logo img {
 	width: 70px;
 	margin-right: 0.2em;
 	position: relative;
