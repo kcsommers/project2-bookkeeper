@@ -17,6 +17,14 @@
 				<h5><%= user.name %></h5>
 				<p><em><%= user.location %></em></p>
 			</div>
+			
+			<div class="mobile-profile-nav">
+				<ul>
+					<li><a href="#">Find Books</a></li>
+					<li><a href="#">New Lists</a></li>
+					<li><a href="#">Edit Profile</a></li>
+				</ul>
+			</div>
 
 			<!-- ******* LEFT BOTTOM ************* -->
 			<section class="profile-groups">
@@ -62,7 +70,7 @@
 								<% list.books.forEach(function(book, i) { %>
 
 									<% if (i < 4) { -%>
-										<div class="card-book-col col m6 l3">
+										<div class="card-book-col col s12 m6 l3">
 											<div class="card-book-cover">
 												<a href="/books/<%= book.id %>">
 													<img src="<%= book.imgUrl %>" />
