@@ -91,10 +91,7 @@
 						<div class="modal-content">
 							<h5>Are you sure?</h5>
 							<p>Deleting this list will also remove its books. If you'd like to save your notes, move your books to a different list.</p>
-							<form id="delete-list-form" method="POST" action="/lists/<%= list.id %>">
-								<input hidden type="text" name="user" value="<%= user.id %>">
-								<input class="btn-large red delete-list-btn" type="submit" name="user" value="DELETE LIST">
-							</form>
+							<button href="/lists/<%= list.id %>" data-userId="<%= user.id %>" class="btn-large red delete-list-btn modal-close" href="">DELETE LIST</button>
 						</div>
 					</div>
 				<% }); %>

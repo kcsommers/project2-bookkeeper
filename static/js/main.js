@@ -45,15 +45,16 @@ $(document).ready(function() {
 	});
 
 	// delete lists
-	$('#delete-list-form').submit(function(e) {
+	$('.delete-list-btn').click(function(e) {
+		console.log('HIJACK')
 		e.preventDefault();
-		let url = $(this).attr('action');
-		let user = $(this).serializeArray()
+		let url = $(this).attr('href');
+		let user = $(this).attr('data-userId')
 		$.ajax({
 			method: 'DELETE',
 			url: url
 		}).done(function(data) {
-			window.location = '/user/' + user[0].value; ;
+			window.location = '/user/' + user; ;
 		})
 	});
 	$('.delete-modal-trigger').on('click', function(e) {
@@ -95,7 +96,6 @@ $(document).ready(function() {
 	// delete quote
 	$('.delete-quote-btn').click(function(e) {
 		e.preventDefault();
-		console.log('#####', $(this).attr('data-id'))
 		let url = $(this).attr('href');
 		let bookId = $(this).attr('data-id');
 		$.ajax({
